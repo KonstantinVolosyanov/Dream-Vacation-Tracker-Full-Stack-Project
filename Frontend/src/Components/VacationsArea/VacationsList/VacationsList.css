@@ -1,3 +1,7 @@
-.VacationsList {
-	
+.VacationList>a {
+   position: absolute;
+   right: 20px;
+   top: 80px;
+   text-decoration: none;
+   transform: scale(2);
 }

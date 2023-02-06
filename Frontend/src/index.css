@@ -14,3 +14,36 @@ a {
     color: darkblue;
     text-decoration: none;
 }
+
+.Box {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px;
+}
+
+form {
+    width: 300px;
+    text-align: left;
+}
+
+form>input,
+form>button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    font-size: x-large;
+}
+
+form>label {
+    font-size: x-large;
+}
+
+.Err {
+    color: red;
+    position: absolute;
+    font-size: x-large;
+    margin: 0 20px;
+}

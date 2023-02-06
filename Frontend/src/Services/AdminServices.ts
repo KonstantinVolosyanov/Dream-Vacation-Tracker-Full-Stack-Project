@@ -1,13 +1,13 @@
 import axios from "axios";
 import VacationModel from "../Models/VacationModel";
-import { VacationsActionType, vacationsStore } from "../Redux/VacationsState";
+import { VacationsAction, VacationsActionType, vacationsStore } from "../Redux/VacationsState";
 import appConfig from "../Utils/AppConfig";
 
 class AdminServices {
 
 
    // Get All Vacations For Admin
-   public async getAllVacationsForAdmin(): Promise<VacationModel[]> {
+   public async getAllVacations(): Promise<VacationModel[]> {
       // Take vacations from global state:
       let vacations = vacationsStore.getState().vacations;
       // If store have no vacations:
@@ -15,9 +15,43 @@ class AdminServices {
          // Fetch vacations from backend:
          const response = await axios.get<VacationModel[]>(appConfig.adminVacationsUrl);
          vacations = response.data;
+         const action: VacationsAction = { type: VacationsActionType.FetchVacations, payload: vacations };
+         vacationsStore.dispatch(action);
       }
       // Return vacations:
       return vacations;
+
+   }
+
+   //Get All Vacations:
+   public async createCSVFile(): Promise<void> {
+      // Take vacations from global state:
+      let vacations = vacationsStore.getState().vacations;
+      // If store have no vacations:
+      console.log("frontend function works");
+      if (vacations.length === 0) {
+         const response = await axios.get<VacationModel[]>(appConfig.userVacationsUrl);
+         // Fetch vacations from backend:
+         vacations = response.data;
+
+      }
+   }
+
+   // Get One Vacation For Admin:
+   public async getOneVacation(vacationId: number): Promise<VacationModel> {
+      // Take vacations from global state:
+      let vacations = vacationsStore.getState().vacations;
+      // Find needed vacation from global state;
+      let vacation = vacations.find(v => v.vacationId === vacationId);
+      // If vacation not found:
+      if (!vacations) {
+         // Fetch vacations from backend:
+         const response = await axios.get<VacationModel>(appConfig.adminVacationsUrl + vacationId);
+         vacation = response.data;
+
+      }
+      // Return vacations:
+      return vacation;
 
    }
 
@@ -42,7 +76,7 @@ class AdminServices {
 
       // Send updated vacation into redux global state:
       vacationsStore.dispatch({ type: VacationsActionType.UpdateVacation, payload: updatedProduct });
-      
+
    }
 
 
@@ -50,8 +84,8 @@ class AdminServices {
    public async deleteVacation(vacationId: number): Promise<void> {
       await axios.delete(appConfig.adminVacationsUrl + vacationId);
 
-       // Send delete id vacation into redux global state:
-       vacationsStore.dispatch({ type: VacationsActionType.DeleteVacation, payload: vacationId });
+      // Send delete id vacation into redux global state:
+      vacationsStore.dispatch({ type: VacationsActionType.DeleteVacation, payload: vacationId });
 
    }
 

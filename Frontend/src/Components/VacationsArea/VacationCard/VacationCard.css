@@ -1,3 +1,30 @@
 .VacationCard {
-	
+   width: 300px;
+   height: 500px;
+   display: inline-flex;
+   background-image: linear-gradient(90deg, lightgreen, white);
+   text-align: left;
+}
+
+.VacationCard img {
+   width: 100%;
+   height: 100px;
+   border: 1px solid;
+   border-radius: 10px;
+   vertical-align: middle;
+   object-fit: cover;
+}
+
+.VacationCard>div:last-child {
+   margin-left: auto;
+}
+
+.VacationCard .Bio {
+   height: 100px;
+   overflow: auto;
+}
+
+.VacationCard .label {
+   font-size: smaller;
+   color: rgb(49, 48, 48);
 }

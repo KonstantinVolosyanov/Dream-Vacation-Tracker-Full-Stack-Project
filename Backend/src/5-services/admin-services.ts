@@ -1,20 +1,62 @@
 import { OkPacket } from "mysql";
+import appConfig from "../2-utils/app-config";
 import dal from "../2-utils/dal";
 import imageHandler from "../2-utils/image-handler";
 import { ResourceNotFoundError } from "../4-models/client-errors";
+import UserModel from "../4-models/user-model";
 import VacationModel from "../4-models/vacation-model";
+import fs from "fs/promises";
+import path from "path";
 
 
 
-// Get All Vacations For Admin
-async function getAllVacationsForAdmin(): Promise<VacationModel[]> {
+// // Get All Vacations For Admin:
+// async function getAllVacationsForAdmin(): Promise<VacationModel[]> {
+//     // Create sql query:
+//     const sql = "SELECT * CONCAT(?,imageName) AS imageUrl FROM vacations ORDER BY startDate";
+//     // Execute sql query
+//     const vacations = await dal.execute(sql, appConfig.vacationImagesAddress);
+//     // Return vacation:
+//     return vacations;
+
+// }
+
+//  Create CSV file
+async function createCSVFile(user: UserModel): Promise<void> {
+    const followersFile = path.join(__dirname, "..", "1-assets/csv-files", "followersInfo.csv")
     // Create sql query:
-    const sql = "SELECT * FROM vacations ORDER BY startDate";
-    // Execute sql query
-    const vacations = await dal.execute(sql);
-    // Return vacation:
+    const sql = `
+        SELECT DISTINCT 
+            V.*,
+            EXISTS(SELECT * FROM followers WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
+            COUNT(F.userId) AS followersCount,
+            CONCAT('${appConfig.vacationImagesAddress}', imageName) AS imageUrl
+        FROM vacations AS V LEFT JOIN followers As F
+        ON V.vacationId = F.vacationId
+        GROUP BY vacationId
+        ORDER BY startDate    
+    `;
+    //Execute query:
+    const vacations = await dal.execute(sql, user.userId);
+    const followersData = vacations.map((v: { destination: string; followersCount: number; }) => `${v.destination} ,${v.followersCount} \n`)
+    await fs.appendFile(followersFile, followersData)
+    // return vacations:
     return vacations;
 
+}
+
+// Get One Vacation:
+async function getOneVacation(vacationId: number): Promise<VacationModel> {
+    // Create sql query:
+    const sql = `SELECT * CONCAT('${appConfig.vacationImagesAddress}',imageName) AS imageUrl FROM vacations WHERE vacationId = ? ORDER BY startDate`;
+    // Execute sql query
+    const vacations = await dal.execute(sql, vacationId);
+    // Extract single vacation:
+    const vacation = vacations[0];
+    // If vacation ot found:
+    if (!vacation) throw new ResourceNotFoundError(vacationId);
+    // Return vacation:
+    return vacation;
 }
 
 
@@ -66,7 +108,7 @@ async function updateVacation(vacation: VacationModel): Promise<VacationModel> {
 async function deleteVacation(vacationId: number): Promise<void> {
     // Get image name from database:
     const imageName = await getImageNameFromDB(vacationId);
-    // Delete that image from database
+    // Delete that image from hard-disk:
     imageHandler.deleteImage(imageName);
     // Create sql query:
     const sql = "DELETE FROM vacations WHERE vacationId = ?";
@@ -97,8 +139,10 @@ async function getImageNameFromDB(vacationId: number): Promise<string> {
 
 
 export default {
-    getAllVacationsForAdmin,
+    // getAllVacationsForAdmin,
     addVacation,
     updateVacation,
-    deleteVacation
+    deleteVacation,
+    getOneVacation,
+    createCSVFile
 }

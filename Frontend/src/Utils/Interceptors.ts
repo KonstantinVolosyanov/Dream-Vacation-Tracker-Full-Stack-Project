@@ -10,7 +10,7 @@ class Interceptors {
         axios.interceptors.request.use(request => {
 
             // If user logged in: 
-            if(authService.isLoggedIn()) {
+            if (authService.isLoggedIn()) {
 
                 // Add authorization header containing the string: "Bearer the-token"
                 request.headers.authorization = "Bearer " + authStore.getState().token;
@@ -24,4 +24,6 @@ class Interceptors {
 }
 
 const interceptors = new Interceptors();
+
+export default interceptors;
 

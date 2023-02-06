@@ -5,7 +5,7 @@ import path from 'path';
 import fs from "fs";
 
 // Images folder
-const productImagesFolder = "./src/1-assets/images/";
+const vacationImagesFolder = "./src/1-assets/images/vacations/";
 
 
 // Save new image: 
@@ -13,7 +13,7 @@ async function saveImage(image: UploadedFile): Promise<string> {
     // Create unique image name: 
     const uniqueImageName = createImageName(image.name);
     // Create absolute path: 
-    const absolutePath = productImagesFolder + uniqueImageName;
+    const absolutePath = vacationImagesFolder + uniqueImageName;
     // Save to disk: 
     await image.mv(absolutePath); // mv = move
     // Return new name: 
@@ -38,7 +38,7 @@ async function deleteImage(existingImageName: string): Promise<void> {
         // If no image sent:
         if (!existingImageName) return;
         // Delete image from disk:
-        await fsPromises.unlink(productImagesFolder + existingImageName);
+        await fsPromises.unlink(vacationImagesFolder + existingImageName);
     }
     catch (err: any) {
         console.error(err.message);
@@ -58,7 +58,7 @@ function createImageName(originalImageName: string): string {
 
 function getAbsolutePath(imageName: string): string {
     // If image exist:
-    let absolutePath = path.join(__dirname, "..", "1-assets", "images", imageName);
+    let absolutePath = path.join(__dirname, "..", "1-assets", "images", "vacations", imageName);
     // If image doesn't exist
     if (!fs.existsSync(absolutePath)) {
         absolutePath = path.join(__dirname, "..", "1-assets", "images", "not-found.png");

@@ -9,8 +9,10 @@ class VacationModel {
     public startDate: string;
     public endDate: string;
     public price: number;
-    public imageName: string;
+    public imageUrl: string;
     public image: File;
+    public isFollowing?: number;
+    public followersCount?: number;
 
 
     // Destination Validation:
@@ -39,12 +41,11 @@ class VacationModel {
     // End Date Validation:
     public static endDateValidation: RegisterOptions = {
         required: { value: true, message: "Missing end date" },
-        //TODO = DATE VALIDATION!!!
     };
 
     // Price Validation:
     public static priceValidation: RegisterOptions = {
-        required: { value: true, message: "Missing end date" },
+        required: { value: true, message: "Missing price" },
         min: { value: 0, message: "Price must be positive" },
         max: { value: 10000, message: "Price can't exceeds 10.000" }
 

@@ -1,14 +1,13 @@
 import axios from "axios";
-import UserModel from "../Models/UserModel";
 import VacationModel from "../Models/VacationModel";
-import { vacationsStore } from "../Redux/VacationsState";
+import { VacationsAction, VacationsActionType, vacationsStore } from "../Redux/VacationsState";
 import appConfig from "../Utils/AppConfig";
 
 class UserServices {
 
 
    //Get All Vacations:
-   public async getAllVacationsForUser(user: UserModel): Promise<VacationModel[]> {
+   public async getAllVacations(): Promise<VacationModel[]> {
       // Take vacations from global state:
       let vacations = vacationsStore.getState().vacations;
       // If store have no vacations:
@@ -16,6 +15,9 @@ class UserServices {
          // Fetch vacations from backend:
          const response = await axios.get<VacationModel[]>(appConfig.userVacationsUrl);
          vacations = response.data;
+
+         const action: VacationsAction = { type: VacationsActionType.FetchVacations, payload: vacations };
+         vacationsStore.dispatch(action);
       }
       // Return vacations:
       return vacations;

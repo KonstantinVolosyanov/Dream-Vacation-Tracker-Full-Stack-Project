@@ -28,14 +28,14 @@ class VacationModel {
 
     // Validation POST:
     private static postValidationSchema = Joi.object({
-        vacationId: Joi.number().optional().positive().integer(),
+        vacationId: Joi.number().forbidden(),
         destination: Joi.string().required().min(3).max(50),
         description: Joi.string().required().min(3).max(1000),
         startDate: Joi.string().required(),
         endDate: Joi.string().required(),
         price: Joi.number().required().min(0).max(10000),
-        imageName: Joi.string().optional,
-        image: Joi.required()
+        imageName: Joi.string().forbidden(),
+        image: Joi.object().required()
     })
 
 
@@ -53,8 +53,8 @@ class VacationModel {
         startDate: Joi.string().required(),
         endDate: Joi.string().required(),
         price: Joi.number().required().min(0).max(10000),
-        imageName: Joi.string().optional,
-        image: Joi.optional()
+        imageName: Joi.string().optional().min(38).max(50),
+        image: Joi.object().optional()
     })
 
 

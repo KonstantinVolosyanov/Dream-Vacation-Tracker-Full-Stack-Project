@@ -14,8 +14,8 @@ export enum VacationsActionType {
    AddVacation = "AddVacation",
    UpdateVacation = "UpdateVacation",
    DeleteVacation = "DeleteVacation",
-   // Follow = "Follow",
-   // Unfollow = "Unfollow"
+   Follow = "Follow",
+   Unfollow = "Unfollow"
 }
 
 
@@ -53,7 +53,13 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
             newState.vacations.splice(indexToDelete, 1);
          }
          break
-
+      
+      case VacationsActionType.Follow:
+         const indexToFollow = newState.vacations.findIndex(v => v.vacationId === action.payload.id);
+         if (indexToFollow >= 0) {
+            newState.vacations[indexToFollow] = action.payload;
+         }
+         break;
    }
 
    return newState;

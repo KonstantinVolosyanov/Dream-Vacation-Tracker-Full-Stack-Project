@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import CredentialsModel from "../../../Models/CredentialsModel";
 import authService from "../../../Services/AuthServices";
 import notify from "../../../Utils/Notify";
-import "./Home.css";
+import "./Login.css";
 
-function Home(): JSX.Element {
+function Login(): JSX.Element {
 
     const { register, handleSubmit, formState } = useForm<CredentialsModel>();
     const navigate = useNavigate();
@@ -24,7 +24,9 @@ function Home(): JSX.Element {
     return (
         <div className="Login Box">
 
-            <h2>Login</h2>
+            <h1>WELCOME</h1>
+            <br />
+            <br />
 
             <form onSubmit={handleSubmit(send)}>
 
@@ -44,4 +46,4 @@ function Home(): JSX.Element {
     );
 }
 
-export default Home;
+export default Login;
