@@ -6,8 +6,9 @@ import { authStore } from "../../../Redux/AuthState";
 import userServices from "../../../Services/UserServices";
 import "./Menu.css";
 
+
 function Menu(): JSX.Element {
-    
+
     // User set state:
     const [user, setUser] = useState<UserModel>();
 
@@ -23,12 +24,13 @@ function Menu(): JSX.Element {
 
     // csvData set State:
     const [csvData, setCSVData] = useState<csvEntry[][]>([[]]);
+
     // csvEntry variable can contain string or/and number
     type csvEntry = string | number;
 
     // Set headers for CSV file:
     let csvArray: csvEntry[][] = [['Destination', 'Followers']];
-    
+
     // Get data from service for CSV file:
     async function getDataForCSV(): Promise<void> {
 
@@ -48,14 +50,16 @@ function Menu(): JSX.Element {
 
 
 
+
+
+
+
     return (
         <div className="Menu">
 
             {/* Show in Menu if user role = User */}
             {user && user.role === "User" && <>
-
-                <span>Filter | </span>
-
+                <NavLink to="/vacations-list">Vacation-List</NavLink>
             </>}
 
             {/* Show in menu if user role = Admin */}
