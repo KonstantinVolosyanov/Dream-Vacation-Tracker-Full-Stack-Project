@@ -14,14 +14,17 @@ function AddVacation(): JSX.Element {
     // Navigate
     const navigate = useNavigate();
 
+    // Start date state for past date validation
+    const [startDate, setStartDate] = useState(new Date());
+
+    // Past date validation handler
+    const handleStartDateChange = (args: ChangeEvent<HTMLInputElement>) => {
+        setStartDate(args.target.valueAsDate);
+    };
+
+
     // Send added vacation
     async function send(vacation: VacationModel) {
-        const startDate = new Date(vacation.startDate);
-        const endDate = new Date(vacation.endDate);
-        if (endDate.getDate() < startDate.getDate()) {
-            notify.error("End date must be past start date");
-            return;
-        }
         try {
             vacation.image = (vacation.image as unknown as FileList)[0];
             await adminServices.addVacation(vacation);
@@ -49,12 +52,13 @@ function AddVacation(): JSX.Element {
                 <textarea {...register("description", VacationModel.descriptionValidation)} />
                 <span className="Err">{formState.errors.description?.message}</span>
 
+                {/* Start Date - min: Today + on change handler */}
                 <label>Start date: </label>
-                <input type="date" min={new Date().toISOString().split("T")[0]} {...register("startDate", VacationModel.startDateValidation)} />
+                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
                 <span className="Err">{formState.errors.startDate?.message}</span>
 
                 <label>End date: </label>
-                <input type="date" min={new Date().toISOString().split("T")[0]} {...register("endDate", VacationModel.endDateValidation)} />
+                <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
                 <span className="Err">{formState.errors.endDate?.message}</span>
 
                 <label>Price: </label>

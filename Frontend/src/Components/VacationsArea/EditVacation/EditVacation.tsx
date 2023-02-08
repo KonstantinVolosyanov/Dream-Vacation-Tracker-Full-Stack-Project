@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
@@ -12,6 +12,7 @@ function EditVacation(): JSX.Element {
     const { register, handleSubmit, formState, setValue } = useForm<VacationModel>();
     const navigate = useNavigate();
     const params = useParams();
+
 
     useEffect(() => {
         adminServices.getOneVacation(+params.vacationId)
@@ -37,6 +38,15 @@ function EditVacation(): JSX.Element {
             notify.error(err)
         }
     }
+
+    // Start date state for past date validation
+    const [startDate, setStartDate] = useState(new Date());
+
+    // Past date validation handler
+    const handleStartDateChange = (args: ChangeEvent<HTMLInputElement>) => {
+        setStartDate(args.target.valueAsDate);
+    };
+
     return (
         <div className="EditVacation Box">
 
@@ -55,12 +65,14 @@ function EditVacation(): JSX.Element {
                 <textarea {...register("description", VacationModel.descriptionValidation)} />
                 <span className="Err">{formState.errors.description?.message}</span>
 
+                {/* Start Date: min => Today , onchange handler */}
                 <label>Start date: </label>
-                <input type="date" {...register("startDate", VacationModel.startDateValidation)} />
+                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
                 <span className="Err">{formState.errors.startDate?.message}</span>
 
+                {/* End Date: minimum => Start Date */}
                 <label>End date: </label>
-                <input type="date" {...register("endDate", VacationModel.endDateValidation)} />
+                <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
                 <span className="Err">{formState.errors.endDate?.message}</span>
 
                 <label>Price: </label>

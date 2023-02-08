@@ -78,7 +78,12 @@ function VacationsList(): JSX.Element {
 
             {vacations.length === 0 && <Spinner />}
 
-            <FilterVacation onFilterChange={handleFilterChange} />
+            {user && user.role === "User" && <>
+
+                <FilterVacation onFilterChange={handleFilterChange} />
+
+            </>}
+
 
             {filteredVacations.map(v => (<VacationCard key={v.vacationId} vacation={v} deleteVacation={deleteClickedVacation} />))}
 
