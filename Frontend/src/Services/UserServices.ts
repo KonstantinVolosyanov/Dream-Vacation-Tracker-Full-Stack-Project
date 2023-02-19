@@ -25,16 +25,22 @@ class UserServices {
 
    /// ------ TODO: do not accept follow two times for same user for same vacation!
    // Follow Vacation
+
    public async follow(userId: number, vacationId: number): Promise<void> {
-      const response = await axios.get<VacationModel[]>(appConfig.userVacationsUrl);
-      const followUsers = response.data;
+      const response = await axios.post<VacationModel[]>(appConfig.userFollowUrl + vacationId);
+      const vacations = response.data;
+      vacationsStore.dispatch({ type: VacationsActionType.Follow, payload: vacationId });
    }
+
 
    // Unfollow Vacation
    public async unfollow(userId: number, vacationId: number): Promise<void> {
+
       await axios.delete(appConfig.userUnfollowUrl + vacationId);
+      vacationsStore.dispatch({ type: VacationsActionType.Unfollow, payload: vacationId });
 
    }
+
 
 }
 

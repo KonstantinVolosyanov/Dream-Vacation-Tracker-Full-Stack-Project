@@ -6,6 +6,7 @@ import Home from "../../HomeArea/Home/Home";
 import AddVacation from "../../VacationsArea/AddVacation/AddVacation";
 import EditVacation from "../../VacationsArea/EditVacation/EditVacation";
 import VacationsList from "../../VacationsArea/VacationsList/VacationsList";
+import VacationsReport from "../../VacationsArea/VacationsReport/VacationsReport";
 import PageNotFound from "../PageNotFound/PageNotFound";
 
 function Routing(): JSX.Element {
@@ -15,6 +16,7 @@ function Routing(): JSX.Element {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/vacations-list" element={<VacationsList />} />
+            <Route path="/vacations-report" element={<VacationsReport />} />
             <Route path="/add-vacation" element={<AddVacation />} />
             <Route path="/update-vacation/:vacationId" element={<EditVacation />} />
             <Route path="/statistics" element={<Statistics />} />

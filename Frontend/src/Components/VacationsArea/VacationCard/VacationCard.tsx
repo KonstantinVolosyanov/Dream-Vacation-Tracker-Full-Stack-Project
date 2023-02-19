@@ -4,20 +4,20 @@ import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
 import { authStore } from "../../../Redux/AuthState";
 import adminServices from "../../../Services/AdminServices";
+import userServices from "../../../Services/UserServices";
 import notify from "../../../Utils/Notify";
 import "./VacationCard.css";
 
-
+// Interface props + delete function in every card 
 interface VacationCardProps {
     vacation: VacationModel;
     deleteVacation: (vacationId: number) => Promise<void>;
-}
 
+}
 
 function VacationCard(props: VacationCardProps): JSX.Element {
 
     const params = useParams();
-    const navigate = useNavigate();
 
     // Format Date:
     function formatDate(fullDate: string): string {
@@ -37,7 +37,16 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         });
     }, []);
 
-    // Vacation State:
+    const [vacations, setVacations] = useState<VacationModel[]>([]);
+
+    // Vacations use effect:---------------------------------------------------------
+    useEffect(() => {
+        userServices.getAllVacations()
+            .then(vacations => setVacations(vacations))
+            .catch(err => notify.error(err));
+    }, []);
+
+    // Vacation State:---------------------------------------------------------------
     const [vacation, setVacation] = useState<VacationModel>();
 
     //Vacation Use Effect:
@@ -47,6 +56,7 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             .catch(err => notify.error(err));
     }, []);
 
+    // DeleteMe vacation function------------------------------------------------------------
     async function deleteMe() {
         try {
             if (!window.confirm("Are you sure?")) return;
@@ -58,12 +68,47 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         }
     }
 
+    // Follow state:-----------------------------------------------------------------
+    const [isFollowing, setIsFollowing] = useState<boolean>(props.vacation.isFollowing);
+
+    // Toggle follow button function:
+    async function handleFollow() {
+        try {
+            await userServices.follow(user.userId, props.vacation.vacationId);
+            setIsFollowing(true);
+            props.vacation.isFollowing = true;
+
+
+
+        } catch (err: any) {
+            notify.error(err);
+        }
+    }
+
+    async function handleUnfollow() {
+        try {
+            await userServices.unfollow(user.userId, props.vacation.vacationId);
+            setIsFollowing(false);
+            props.vacation.isFollowing = false;
+
+
+        } catch (err: any) {
+            notify.error(err);
+        }
+    }
+    // Rerender after Follow - Unfollow
+
 
     return (
         <div className="VacationCard Box">
             {/* If User */}
             {user && user.role === "User" &&
                 <>
+                    {isFollowing ? (
+                        <button onClick={handleUnfollow}>Unfollow</button>
+                    ) : (
+                        <button onClick={handleFollow}>Follow</button>
+                    )}
                     <div>
                         <img src={props.vacation.imageUrl} />
                     </div>

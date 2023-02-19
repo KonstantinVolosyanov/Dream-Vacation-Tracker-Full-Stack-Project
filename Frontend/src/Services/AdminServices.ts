@@ -6,36 +6,35 @@ import appConfig from "../Utils/AppConfig";
 class AdminServices {
 
 
-   // Get All Vacations For Admin
-   public async getAllVacations(): Promise<VacationModel[]> {
-      // Take vacations from global state:
-      let vacations = vacationsStore.getState().vacations;
-      // If store have no vacations:
-      if (vacations.length === 0) {
-         // Fetch vacations from backend:
-         const response = await axios.get<VacationModel[]>(appConfig.adminVacationsUrl);
-         vacations = response.data;
-         const action: VacationsAction = { type: VacationsActionType.FetchVacations, payload: vacations };
-         vacationsStore.dispatch(action);
-      }
-      // Return vacations:
-      return vacations;
+   // // Get All Vacations
+   // public async getAllVacations(): Promise<VacationModel[]> {
+   //    // Take vacations from global state:
+   //    let vacations = vacationsStore.getState().vacations;
+   //    // If store have no vacations:
+   //    if (vacations.length === 0) {
+   //       // Fetch vacations from backend:
+   //       const response = await axios.get<VacationModel[]>(appConfig.adminVacationsUrl);
+   //       vacations = response.data;
+   //       const action: VacationsAction = { type: VacationsActionType.FetchVacations, payload: vacations };
+   //       vacationsStore.dispatch(action);
+   //    }
+   //    // Return vacations:
+   //    return vacations;
 
-   }
+   // }
 
-   //Get All Vacations:
-   public async createCSVFile(): Promise<void> {
-      // Take vacations from global state:
-      let vacations = vacationsStore.getState().vacations;
-      // If store have no vacations:
-      console.log("frontend function works");
-      if (vacations.length === 0) {
-         const response = await axios.get<VacationModel[]>(appConfig.userVacationsUrl);
-         // Fetch vacations from backend:
-         vacations = response.data;
+   // //Get All Vacations:
+   // public async createCSVFile(): Promise<void> {
+   //    // Take vacations from global state:
+   //    let vacations = vacationsStore.getState().vacations;
+   //    // If store have no vacations:
+   //    if (vacations.length === 0) {
+   //       const response = await axios.get<VacationModel[]>(appConfig.userVacationsUrl);
+   //       // Fetch vacations from backend:
+   //       vacations = response.data;
 
-      }
-   }
+   //    }
+   // }
 
    // Get One Vacation For Admin:
    public async getOneVacation(vacationId: number): Promise<VacationModel> {

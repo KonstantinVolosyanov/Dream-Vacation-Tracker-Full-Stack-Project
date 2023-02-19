@@ -1,10 +1,10 @@
 import { createStore } from "redux";
 import VacationModel from "../Models/VacationModel";
+import { composeWithDevTools } from "redux-devtools-extension"
 
 // 1. App State - application level state:
 export class VacationsState {
    public vacations: VacationModel[] = [];
-   //Followers?
 }
 
 
@@ -30,10 +30,14 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
 
    const newState: VacationsState = { ...currentState };
 
+   // let indexToFollow: number;
+
    switch (action.type) {
+
 
       case VacationsActionType.FetchVacations:
          newState.vacations = action.payload;
+
          break;
 
       case VacationsActionType.AddVacation:
@@ -53,17 +57,36 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
             newState.vacations.splice(indexToDelete, 1);
          }
          break
-      
+
       case VacationsActionType.Follow:
-         const indexToFollow = newState.vacations.findIndex(v => v.vacationId === action.payload.id);
+         // newState.vacations.push(action.payload);
+         const indexToFollow = newState.vacations.findIndex(v => v.vacationId === action.payload);
          if (indexToFollow >= 0) {
-            newState.vacations[indexToFollow] = action.payload;
+            newState.vacations[indexToFollow] = {
+               ...newState.vacations[indexToFollow],
+               isFollowing: true
+            }
          }
          break;
+
+
+      case VacationsActionType.Unfollow:
+         // const indexToUnfollow = newState.vacations.findIndex(v => v.vacationId === action.payload);
+         // if (indexToUnfollow >= 0) {
+         //    newState.vacations.splice(indexToUnfollow, 1);
+         // }
+         const indexToUnfollow = newState.vacations.findIndex(v => v.vacationId === action.payload);
+         if (indexToUnfollow >= 0) {
+            newState.vacations[indexToUnfollow] = {
+               ...newState.vacations[indexToUnfollow],
+               isFollowing: false
+            };
+         }
+         break
    }
 
    return newState;
 }
 
 // 5. Store - Redux manager:
-export const vacationsStore = createStore(vacationsReducer);
+export const vacationsStore = createStore(vacationsReducer, composeWithDevTools());

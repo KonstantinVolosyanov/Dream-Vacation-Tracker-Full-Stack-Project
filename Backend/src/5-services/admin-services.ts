@@ -3,47 +3,35 @@ import appConfig from "../2-utils/app-config";
 import dal from "../2-utils/dal";
 import imageHandler from "../2-utils/image-handler";
 import { ResourceNotFoundError } from "../4-models/client-errors";
-import UserModel from "../4-models/user-model";
 import VacationModel from "../4-models/vacation-model";
+import UserModel from "../4-models/user-model";
 import fs from "fs/promises";
 import path from "path";
 
 
-
-// // Get All Vacations For Admin:
-// async function getAllVacationsForAdmin(): Promise<VacationModel[]> {
+// //  Create CSV file
+// async function createCSVFile(user: UserModel): Promise<void> {
+//     const followersFile = path.join(__dirname, "..", "1-assets/csv-files", "followersInfo.csv")
 //     // Create sql query:
-//     const sql = "SELECT * CONCAT(?,imageName) AS imageUrl FROM vacations ORDER BY startDate";
-//     // Execute sql query
-//     const vacations = await dal.execute(sql, appConfig.vacationImagesAddress);
-//     // Return vacation:
+//     const sql = `
+//         SELECT DISTINCT 
+//             V.*,
+//             EXISTS(SELECT * FROM followers WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
+//             COUNT(F.userId) AS followersCount,
+//             CONCAT('${appConfig.vacationImagesAddress}', imageName) AS imageUrl
+//         FROM vacations AS V LEFT JOIN followers As F
+//         ON V.vacationId = F.vacationId
+//         GROUP BY vacationId
+//         ORDER BY startDate    
+//     `;
+//     //Execute query:
+//     const vacations = await dal.execute(sql, user.userId);
+//     const followersData = vacations.map((v: { destination: string; followersCount: number; }) => `${v.destination} ,${v.followersCount} \n`)
+//     await fs.appendFile(followersFile, followersData)
+//     // return vacations:
 //     return vacations;
 
 // }
-
-//  Create CSV file
-async function createCSVFile(user: UserModel): Promise<void> {
-    const followersFile = path.join(__dirname, "..", "1-assets/csv-files", "followersInfo.csv")
-    // Create sql query:
-    const sql = `
-        SELECT DISTINCT 
-            V.*,
-            EXISTS(SELECT * FROM followers WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
-            COUNT(F.userId) AS followersCount,
-            CONCAT('${appConfig.vacationImagesAddress}', imageName) AS imageUrl
-        FROM vacations AS V LEFT JOIN followers As F
-        ON V.vacationId = F.vacationId
-        GROUP BY vacationId
-        ORDER BY startDate    
-    `;
-    //Execute query:
-    const vacations = await dal.execute(sql, user.userId);
-    const followersData = vacations.map((v: { destination: string; followersCount: number; }) => `${v.destination} ,${v.followersCount} \n`)
-    await fs.appendFile(followersFile, followersData)
-    // return vacations:
-    return vacations;
-
-}
 
 // Get One Vacation:
 async function getOneVacation(vacationId: number): Promise<VacationModel> {
@@ -144,5 +132,5 @@ export default {
     updateVacation,
     deleteVacation,
     getOneVacation,
-    createCSVFile
+    // createCSVFile
 }

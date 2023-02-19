@@ -2,6 +2,7 @@ import axios from "axios";
 import CredentialsModel from "../Models/CredentialsModel";
 import UserModel from "../Models/UserModel";
 import { AuthActionType, authStore } from "../Redux/AuthState";
+import { VacationsActionType, vacationsStore } from "../Redux/VacationsState";
 import appConfig from "../Utils/AppConfig";
 
 class AuthServices {
@@ -15,7 +16,8 @@ class AuthServices {
       // Get the returned token:
       const token = response.data;
 
-      console.log(token);
+      // console.log(token);
+      let vacations = vacationsStore.getState().vacations;
 
       // Send token to global state:
       authStore.dispatch({ type: AuthActionType.Register, payload: token });
@@ -38,6 +40,8 @@ class AuthServices {
    // Logout:
    public logout(): void {
       authStore.dispatch({ type: AuthActionType.Logout });
+      // Empty vacationStore on logout:
+      vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: [] })
    }
 
    // Is user logged in:

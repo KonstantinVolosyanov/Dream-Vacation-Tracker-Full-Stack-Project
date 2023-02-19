@@ -11,7 +11,7 @@ class VacationModel {
     public price: number;
     public imageUrl: string;
     public image: File;
-    public isFollowing?: number;
+    public isFollowing: boolean;
     public followersCount?: number;
 
 
@@ -56,8 +56,6 @@ class VacationModel {
         required: { value: true, message: "Missing image" }
     };
 
-
 }
-
 
 export default VacationModel;

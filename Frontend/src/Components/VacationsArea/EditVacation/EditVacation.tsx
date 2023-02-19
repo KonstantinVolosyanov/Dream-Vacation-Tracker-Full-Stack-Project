@@ -67,7 +67,7 @@ function EditVacation(): JSX.Element {
 
                 {/* Start Date: min => Today , onchange handler */}
                 <label>Start date: </label>
-                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
+                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={startDate.toISOString().split("T")[0]} />
                 <span className="Err">{formState.errors.startDate?.message}</span>
 
                 {/* End Date: minimum => Start Date */}

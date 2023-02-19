@@ -47,3 +47,8 @@ form>label {
     font-size: x-large;
     margin: 0 20px;
 }
+
+ul,
+li {
+    text-decoration: none;
+}

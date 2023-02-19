@@ -12,7 +12,7 @@ const FilterVacation: React.FC<Props> = ({ onFilterChange }) => {
         <div className="FilterVacation">
             <div className="filter-container">
                 <label>Filter: </label>
-                <button>All</button>
+                <button onClick={() => onFilterChange("all")}>All</button>
                 <span> | </span>
                 <button onClick={() => onFilterChange("following")}>Following</button>
                 <span> | </span>
