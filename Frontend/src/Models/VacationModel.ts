@@ -10,7 +10,8 @@ class VacationModel {
     public endDate: string;
     public price: number;
     public imageUrl: string;
-    public image: File;
+    public imageName: string;
+    public image?: File;
     public isFollowing: boolean;
     public followersCount?: number;
 
@@ -22,7 +23,6 @@ class VacationModel {
         maxLength: { value: 1000, message: "Destination can't exceeds 50 chars" },
 
     };
-
 
     // Description Validation:
     public static descriptionValidation: RegisterOptions = {
@@ -51,10 +51,16 @@ class VacationModel {
 
     };
 
-    // Image Validation:
+    // Image post Validation:
     public static imageValidation: RegisterOptions = {
         required: { value: true, message: "Missing image" }
     };
+    
+    // Image put Validation:
+    public static imagePutValidation: RegisterOptions = {
+
+    };
+
 
 }
 

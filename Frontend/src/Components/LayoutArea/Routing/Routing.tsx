@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import UserModel from "../../../Models/UserModel";
 import Statistics from "../../AdminArea/Statistics/Statistics";
 import Login from "../../AuthArea/Login/Login";
 import Register from "../../AuthArea/Register/Register";

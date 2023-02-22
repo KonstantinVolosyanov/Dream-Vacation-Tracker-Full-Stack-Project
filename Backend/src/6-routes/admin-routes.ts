@@ -11,21 +11,6 @@ import userServices from "../5-services/user-services";
 const router = express.Router();
 
 
-// // Get Vacations // GET http://localhost:4000/api/user/vacations
-// router.get("/admin/vacations", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-//    try {
-//       // Extract user from token:
-//       const user = cyber.getUserFromToken(request)
-//       // Get vacations data:
-//       const vacations = await userServices.getAllVacations(user);
-//       // Return json vacations data:
-//       response.json(vacations);
-//    }
-//    catch (err: any) {
-//       next(err);
-//    }
-// });
-
 
 // Get One Vacation for Admin Route // GET http://localhost:4000/api/admin/vacations
 router.get("/admin/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {

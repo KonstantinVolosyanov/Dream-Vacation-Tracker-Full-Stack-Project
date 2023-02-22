@@ -1,30 +1,196 @@
+/* Card */
 .VacationCard {
-   width: 300px;
+   position: relative;
+   box-sizing: border-box;
+   width: 350px;
    height: 500px;
    display: inline-flex;
-   background-image: linear-gradient(90deg, lightgreen, white);
+   flex-direction: row;
+   border: none;
+   background-color: lightcyan;
    text-align: left;
+   margin: 20px;
+   min-height: 200px;
+   border-radius: 10px;
+   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+   transition: all 0.2s;
 }
 
+/* Image */
 .VacationCard img {
-   width: 100%;
-   height: 100px;
+   width: 350px;
+   height: 220px;
    border: 1px solid;
-   border-radius: 10px;
+   border-radius: 10px 10px 0px 0px;
+   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+   border: none;
    vertical-align: middle;
    object-fit: cover;
 }
 
-.VacationCard>div:last-child {
-   margin-left: auto;
+/* Follow box */
+.VacationCard .Follow {
+   position: absolute;
+   box-sizing: border-box;
+   width: 350px;
+   padding: 5px;
 }
 
+/* Follow Button */
+.VacationCard .fbtn {
+   position: absolute;
+   box-sizing: border-box;
+   width: 40px;
+   height: 40px;
+   margin-top: -10px;
+   display: inline-block;
+   border: none;
+   background-color: transparent;
+   cursor: pointer;
+   font-size: xxx-large;
+   font-weight: bolder;
+   color: white;
+}
+
+/* Unfollow Button */
+.VacationCard .ufbtn {
+   position: absolute;
+   box-sizing: border-box;
+   width: 40px;
+   height: 40px;
+   margin-top: -10px;
+   display: inline-block;
+   border: none;
+   font-size: xxx-large;
+   background-color: transparent;
+   cursor: pointer;
+   color: darkcyan;
+}
+
+/* Add Button */
+.VacationCard .Add {
+   position: absolute;
+   box-sizing: border-box;
+   width: 40px;
+   height: 40px;
+   margin-top: -5px;
+   margin-left: 40px;
+   display: inline-block;
+   border: none;
+   font-size: xx-large;
+   background-color: transparent;
+   cursor: pointer;
+   color: white;
+}
+
+/* Edit Button */
+.VacationCard .Delete {
+   position: absolute;
+   box-sizing: border-box;
+   width: 40px;
+   height: 40px;
+   margin-top: -5px;
+   display: inline-block;
+   border: none;
+   font-size: xx-large;
+   background-color: transparent;
+   cursor: pointer;
+   color: white;
+}
+
+/* Price */
+.VacationCard .Price {
+   position: absolute;
+   box-sizing: border-box;
+   width: 350px;
+   padding: 5px;
+   text-align: end;
+   margin-top: -5px;
+   margin-right: 0px;
+   font-size: xxx-large;
+   font-weight: normal;
+   color: white;
+   margin-right: 5px;
+}
+
+/* Likes Count */
+.VacationCard .Count {
+   position: absolute;
+   box-sizing: border-box;
+   width: 10px;
+   margin-left: 6px;
+   margin-top: 0px;
+   font-size: x-large;
+   display: inline-block;
+   color: black;
+   margin-left: 27.5px;
+   margin-top: 17.5px;
+}
+
+/* Destination */
+.VacationCard .Destination {
+   position: absolute;
+   font-size: xxx-large;
+   color: white;
+   margin-top: 145px;
+   margin-left: 5px;
+}
+
+/* Dates */
+.VacationCard .Dates {
+   position: absolute;
+   box-sizing: border-box;
+   text-align: center;
+   width: 350px;
+   height: 60px;
+   margin-top: 195px;
+   border: 1px solid;
+   border-radius: 10px 10px 0px 0px;
+   box-shadow: 0px 6px -10px rgba(0, 0, 0, 0.25);
+   border: none;
+   padding: 5px;
+   background-color: darkcyan;
+   color: white;
+}
+
+/* Bio */
 .VacationCard .Bio {
-   height: 100px;
+   position: absolute;
+   box-sizing: border-box;
+   width: 350px;
+   height: 270px;
+   margin-top: 230px;
+   border: 1px solid;
+   border-radius: 10px 10px 10px 10px;
+   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+   border: none;
+   background-color: lightblue;
    overflow: auto;
+   padding: 10px;
 }
 
-.VacationCard .label {
-   font-size: smaller;
-   color: rgb(49, 48, 48);
+/* Links */
+.VacationCard a {
+   color: white;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+   width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+   background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+   background: #d6d5d5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   background: #555;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
 import VacationsList from "../../VacationsArea/VacationsList/VacationsList";
@@ -9,36 +9,35 @@ import "./Home.css";
 function Home(): JSX.Element {
 
 
-    const [user, setUser] = useState<UserModel>();
-    const navigate = useNavigate();
+    // const [user, setUser] = useState<UserModel>();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        setUser(authStore.getState().user);
-
-        // Listen to AuthState changes:
-        authStore.subscribe(() => {
-            setUser(authStore.getState().user);
-        });
-    }, []);
+    //     setUser(authStore.getState().user);
+    //     // Listen to AuthState changes:
+    //     const unsubscribe = authStore.subscribe(() => {
+    //         setUser(authStore.getState().user);
+    //     });
+    //     return unsubscribe
+    // }, []);
 
 
 
 
     return (
         <div className="Home">
-            {!user && <>
+            {/* {!user && <>
 
                 {navigate("/login")}
 
+            </>} */}
 
-            </>}
+            {/* {user && <> */}
 
-            {user && <>
+            <VacationsList />
 
-                <VacationsList />
-
-            </>}
+            {/* </>} */}
         </div >
     );
 }

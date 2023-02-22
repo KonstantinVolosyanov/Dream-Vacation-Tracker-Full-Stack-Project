@@ -17,7 +17,7 @@ function Register(): JSX.Element {
             navigate("/vacations-list");
         }
         catch (err: any) {
-            alert(err.message);
+            notify.error(err);
         }
     }
 

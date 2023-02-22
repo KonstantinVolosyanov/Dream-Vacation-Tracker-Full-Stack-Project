@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
-import { authStore } from "../../../Redux/AuthState";
-import adminServices from "../../../Services/AdminServices";
 import userServices from "../../../Services/UserServices";
 import notify from "../../../Utils/Notify";
 import "./VacationCard.css";
 
-// Interface props + delete function in every card 
+// Interface props + delete function for every card:
 interface VacationCardProps {
     vacation: VacationModel;
     deleteVacation: (vacationId: number) => Promise<void>;
+    user: UserModel;
 
 }
 
@@ -25,36 +24,6 @@ function VacationCard(props: VacationCardProps): JSX.Element {
         return date.toDateString();
     }
 
-    // Users State:
-    const [user, setUser] = useState<UserModel>();
-
-    // Users Use Effect
-    useEffect(() => {
-        setUser(authStore.getState().user);
-        // Listen to AuthState changes:
-        authStore.subscribe(() => {
-            setUser(authStore.getState().user);
-        });
-    }, []);
-
-    const [vacations, setVacations] = useState<VacationModel[]>([]);
-
-    // Vacations use effect:---------------------------------------------------------
-    useEffect(() => {
-        userServices.getAllVacations()
-            .then(vacations => setVacations(vacations))
-            .catch(err => notify.error(err));
-    }, []);
-
-    // Vacation State:---------------------------------------------------------------
-    const [vacation, setVacation] = useState<VacationModel>();
-
-    //Vacation Use Effect:
-    useEffect(() => {
-        adminServices.getOneVacation(+params.id)
-            .then(vacation => setVacation(vacation))
-            .catch(err => notify.error(err));
-    }, []);
 
     // DeleteMe vacation function------------------------------------------------------------
     async function deleteMe() {
@@ -74,12 +43,9 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     // Toggle follow button function:
     async function handleFollow() {
         try {
-            await userServices.follow(user.userId, props.vacation.vacationId);
+            await userServices.follow(props.user.userId, props.vacation.vacationId);
             setIsFollowing(true);
-            props.vacation.isFollowing = true;
-
-
-
+            // const updatedCount = props.vacation.followersCount++;
         } catch (err: any) {
             notify.error(err);
         }
@@ -87,89 +53,74 @@ function VacationCard(props: VacationCardProps): JSX.Element {
 
     async function handleUnfollow() {
         try {
-            await userServices.unfollow(user.userId, props.vacation.vacationId);
+            await userServices.unfollow(props.user.userId, props.vacation.vacationId);
             setIsFollowing(false);
-            props.vacation.isFollowing = false;
-
-
+            // const updatedCount = props.vacation.followersCount--;
         } catch (err: any) {
             notify.error(err);
         }
     }
-    // Rerender after Follow - Unfollow
 
 
     return (
-        <div className="VacationCard Box">
+        <div className="VacationCard">
             {/* If User */}
-            {user && user.role === "User" &&
+            {props.user && props.user.role === "User" &&
                 <>
-                    {isFollowing ? (
-                        <button onClick={handleUnfollow}>Unfollow</button>
-                    ) : (
-                        <button onClick={handleFollow}>Follow</button>
-                    )}
                     <div>
                         <img src={props.vacation.imageUrl} />
                     </div>
-                    <div>
-                        {props.vacation.isFollowing}
-                        <br />
-                        {props.vacation.followersCount}
-                        <br />
-                        <span className="label">Destination: </span>
-                        <br />
-                        {props.vacation.destination}
-                        <br />
-                        <span className="label">Bio: </span>
-                        <div className="Bio">
-                            {props.vacation.description}
-                        </div>
-                        <br />
-                        <span className="label">Start Date: </span>
-                        {formatDate(props.vacation.startDate)}
-                        <br />
-                        <span className="label">End Date: </span>
-                        {formatDate(props.vacation.endDate)}
-                        <br />
-                        <span className="label">Price: </span>
-                        {props.vacation.price}
-                        <br />
+                    <div className="Price">
+                        {props.vacation.price}$
                     </div>
+                    <div className="Count">
+                        {props.vacation.followersCount}
+                    </div>
+                    <div className="Follow">
+                        {isFollowing ? (
+                            <button className="ufbtn" onClick={handleUnfollow}>❤</button>
+                        ) : (
+                            <button className="fbtn" onClick={handleFollow}>❤</button>
+                        )}
+                    </div>
+                    <div className="Destination">
+                        {props.vacation.destination}
+                    </div>
+                    <div className="Dates">
+                        📅  {formatDate(props.vacation.startDate) + " - "}
+                        {formatDate(props.vacation.endDate)}
+                    </div>
+                    <div className="Bio">
+                        {props.vacation.description}
+                    </div>
+
+
                 </>}
 
             {/* If Admin */}
-            {user && user.role === "Admin" &&
+            {props.user && props.user.role === "Admin" &&
                 <>
                     <div>
                         <img src={props.vacation.imageUrl} />
                     </div>
-                    <div>
-                        {props.vacation.followersCount}
-                        <br />
-                        <span className="label">Destination: </span>
-                        <br />
-                        {props.vacation.destination}
-                        <br />
-                        <span className="label">Bio: </span>
-                        <div className="Bio">
-                            {props.vacation.description}
-                        </div>
-                        <br />
-                        <span className="label">Start Date: </span>
-                        {formatDate(props.vacation.startDate)}
-                        <br />
-                        <span className="label">End Date: </span>
-                        {formatDate(props.vacation.endDate)}
-                        <br />
-                        <span className="label">Price: </span>
-                        {props.vacation.price}
-                        <br />
-                        <NavLink to={"/update-vacation/" + props.vacation.vacationId}>Edit</NavLink>
-                        <button onClick={deleteMe}>Delete Vacation</button>
+                    <div className="Price">
+                        {props.vacation.price}$
                     </div>
-                </>}
-        </div>
+                    <button className="Add"><NavLink to={"/update-vacation/" + props.vacation.vacationId}>🖊</NavLink></button>
+                    <button onClick={deleteMe} className="Delete">✖</button>
+                    <div className="Destination">
+                        {props.vacation.destination}
+                    </div>
+                    <div className="Dates">
+                        📅 {formatDate(props.vacation.startDate) + "  -  "}
+                        {formatDate(props.vacation.endDate)}
+                    </div>
+                    <div className="Bio">
+                        {props.vacation.description}
+                    </div>
+                </>
+            }
+        </div >
     );
 }
 

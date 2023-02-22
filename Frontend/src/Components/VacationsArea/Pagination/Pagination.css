@@ -1,4 +1,35 @@
-.Pagination button {
+.Pagination .number {
+   width: 10px;
+   height: 12px;
+   border-radius: 7px;
    display: inline-block;
-   margin-right: 5px;
+   border: none;
+   margin: 5px;
+}
+
+.Pagination .notActive {
+   width: 10px;
+   height: 12px;
+   border-radius: 7px;
+   display: inline-block;
+   border: none;
+   margin: 5px;
+   background-color: white;
+   transition: 0.5s;
+}
+
+.Pagination .active {
+   width: 10px;
+   height: 12px;
+   border-radius: 7px;
+   display: inline-block;
+   border: none;
+   margin: 5px;
+   background-color: darkcyan;
+   transition: 0.5s;
+}
+
+.Pagination>.Prev {
+   display: inline-block;
+
 }

@@ -57,8 +57,8 @@ const VacationsReport = () => {
 
     return (
         <div>
-            <h1>React Bar Chart</h1>
-            <CanvasJSChart options={options} />
+            <h1>Popularity Statistics</h1>
+            {options && <CanvasJSChart options={options} />}
         </div>
     );
 }

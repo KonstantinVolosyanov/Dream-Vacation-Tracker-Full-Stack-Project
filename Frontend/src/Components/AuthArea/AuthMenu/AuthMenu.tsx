@@ -14,9 +14,10 @@ function AuthMenu(): JSX.Element {
         setUser(authStore.getState().user);
 
         // Listen to AuthState changes:
-        authStore.subscribe(() => {
+        const unsubscribe = authStore.subscribe(() => {
             setUser(authStore.getState().user);
         });
+        return unsubscribe;
     }, []);
 
 

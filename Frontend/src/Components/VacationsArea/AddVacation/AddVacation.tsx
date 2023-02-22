@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
-import "./AddVacation.css";
 
 function AddVacation(): JSX.Element {
+
+    const [vacation, setVacation] = useState<VacationModel>();
 
     // Use form
     const { register, handleSubmit, formState } = useForm<VacationModel>();
@@ -22,14 +23,17 @@ function AddVacation(): JSX.Element {
         setStartDate(args.target.valueAsDate);
     };
 
+   
 
     // Send added vacation
     async function send(vacation: VacationModel) {
         try {
             vacation.image = (vacation.image as unknown as FileList)[0];
-            await adminServices.addVacation(vacation);
+            const addedVacation = await adminServices.addVacation(vacation);
+            // await adminServices.addVacation(vacation);
             notify.success("Vacation added successfully");
             navigate("/vacations-list")
+
 
         }
         catch (err) {
@@ -68,6 +72,8 @@ function AddVacation(): JSX.Element {
                 <label>Image: </label>
                 <input type="file" accept="image/*" {...register("image", VacationModel.imageValidation)} />
                 <span className="Err">{formState.errors.image?.message}</span>
+
+                <img src={vacation?.imageUrl} />
 
                 <button>Add</button>
 

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
-import "./EditVacation.css";
+
 
 function EditVacation(): JSX.Element {
 
@@ -17,12 +17,14 @@ function EditVacation(): JSX.Element {
     useEffect(() => {
         adminServices.getOneVacation(+params.vacationId)
             .then(vacation => {
+                setVacation(vacation);
                 setValue("vacationId", vacation.vacationId);
                 setValue("destination", vacation.destination);
                 setValue("description", vacation.description);
                 setValue("startDate", vacation.startDate);
                 setValue("endDate", vacation.endDate);
                 setValue("price", vacation.price);
+                setStartDate(new Date(vacation.startDate));
             })
             .catch(err => notify.error(err));
     }, []);
@@ -30,7 +32,7 @@ function EditVacation(): JSX.Element {
     async function send(vacation: VacationModel) {
         try {
             vacation.image = (vacation.image as unknown as FileList)[0];
-            await adminServices.updateVacation(vacation);
+            const updatedVacation = await adminServices.updateVacation(vacation);
             notify.success("Vacation has been updated.")
             navigate("/vacations-list")
         }
@@ -65,14 +67,15 @@ function EditVacation(): JSX.Element {
                 <textarea {...register("description", VacationModel.descriptionValidation)} />
                 <span className="Err">{formState.errors.description?.message}</span>
 
-                {/* Start Date: min => Today , onchange handler */}
+                {/* Start Date: min = Today , onchange handler, value = previous Start Date */}
                 <label>Start date: </label>
-                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={startDate.toISOString().split("T")[0]} />
+        
+                    <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
                 <span className="Err">{formState.errors.startDate?.message}</span>
 
-                {/* End Date: minimum => Start Date */}
+                {/* End Date: minimum => Start Date, value = previous EndDate */}
                 <label>End date: </label>
-                <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
+                <input type="date" {...register("endDate", VacationModel.endDateValidation)} value={vacation?.endDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
                 <span className="Err">{formState.errors.endDate?.message}</span>
 
                 <label>Price: </label>

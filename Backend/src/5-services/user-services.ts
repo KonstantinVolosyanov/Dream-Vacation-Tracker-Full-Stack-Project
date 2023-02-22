@@ -27,15 +27,13 @@ async function getAllVacations(user: UserModel): Promise<VacationModel[]> {
 
 }
 
-/// ------ TODO: do not accept follow two times for same user for same vacation!
-
 // Follow Vacation
 async function follow(userId: number, vacationId: number): Promise<void> {
     // Create sql query:
     const sql = "INSERT INTO followers VALUES( ?, ?)"
     // Execute sql query
     await dal.execute(sql, userId, vacationId);
-
+    
 }
 
 
