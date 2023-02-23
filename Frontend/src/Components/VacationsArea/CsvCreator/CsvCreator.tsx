@@ -48,9 +48,8 @@ function CsvCreator(): JSX.Element {
         getDataForCSV();
     }, [user]);
 
-
     return (
-        <div className="Menu">
+        <div className="CsvCreator">
 
             {/* Show in Menu if user role = User */}
             {user && user.role === "Admin" && <>

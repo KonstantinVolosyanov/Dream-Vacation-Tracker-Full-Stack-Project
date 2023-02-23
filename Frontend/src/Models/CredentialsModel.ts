@@ -11,7 +11,11 @@ class CredentialsModel {
         required: { value: true, message: "Missing email" },
         minLength: { value: 8, message: "Email must be minimum 8 chars" },
         maxLength: { value: 30, message: "Email can't exceeds 30 chars" },
-
+        // Valid email pattern
+        pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i,
+            message: "Format must be xxx@xxx.xxx"
+        }
     };
 
 

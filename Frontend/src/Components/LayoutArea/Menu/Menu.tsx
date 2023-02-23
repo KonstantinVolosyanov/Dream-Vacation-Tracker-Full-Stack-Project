@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
 import userServices from "../../../Services/UserServices";
+import Header from "../Header/Header";
 import "./Menu.css";
 
 
@@ -27,20 +28,22 @@ function Menu(): JSX.Element {
     return (
         <div className="Menu">
 
+            <Header />
+
             {/* Show in Menu if user role = User */}
             {user && user.role === "User" && <>
-                <NavLink to="/vacations-list">Vacation-List</NavLink>
+                {/* <NavLink to="/vacations-list">Vacation-List</NavLink> */}
             </>}
 
             {/* Show in menu if user role = Admin */}
             {user && user.role === "Admin" && <>
-
+                <span> &nbsp; &nbsp; | &nbsp; &nbsp; </span>
                 <NavLink to="/add-vacation">Add Vacation</NavLink>
-                <span> | </span>
+                <span> &nbsp; &nbsp; | &nbsp; &nbsp; </span>
                 <NavLink to="/vacations-report">Statistics</NavLink>
-                <span> | </span>
+                <span>  &nbsp; &nbsp; | &nbsp; &nbsp; </span>
                 <NavLink to="/vacations-list">Vacation-List</NavLink>
-                <span> | </span>
+                <span> &nbsp;  &nbsp;| &nbsp;  </span>
 
             </>}
 

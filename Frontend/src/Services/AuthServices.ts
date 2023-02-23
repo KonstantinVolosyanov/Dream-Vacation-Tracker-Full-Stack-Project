@@ -1,7 +1,7 @@
 import axios from "axios";
 import CredentialsModel from "../Models/CredentialsModel";
 import UserModel from "../Models/UserModel";
-import { AuthActionType, authStore } from "../Redux/AuthState";
+import { AuthAction, AuthActionType, authStore } from "../Redux/AuthState";
 import { VacationsActionType, vacationsStore } from "../Redux/VacationsState";
 import appConfig from "../Utils/AppConfig";
 
@@ -41,14 +41,13 @@ class AuthServices {
     public logout(): void {
         authStore.dispatch({ type: AuthActionType.Logout });
         // Empty vacationStore on logout:
-        //   vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: [] })
+        vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: [] })
     }
 
     // Is user logged in:
     public isLoggedIn(): boolean {
         return authStore.getState().token !== null;
     }
-
 
 }
 

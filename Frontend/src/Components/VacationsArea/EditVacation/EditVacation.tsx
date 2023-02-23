@@ -69,8 +69,8 @@ function EditVacation(): JSX.Element {
 
                 {/* Start Date: min = Today , onchange handler, value = previous Start Date */}
                 <label>Start date: </label>
-        
-                    <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
+
+                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
                 <span className="Err">{formState.errors.startDate?.message}</span>
 
                 {/* End Date: minimum => Start Date, value = previous EndDate */}
@@ -83,7 +83,7 @@ function EditVacation(): JSX.Element {
                 <span className="Err">{formState.errors.price?.message}</span>
 
                 <label>Image: </label>
-                <input type="file" accept="image/*" {...register("image", VacationModel.imageValidation)} />
+                <input type="file" accept="image/*" {...register("image", VacationModel.imagePutValidation)} />
                 <span className="Err">{formState.errors.image?.message}</span>
 
                 <img src={vacation?.imageUrl} />

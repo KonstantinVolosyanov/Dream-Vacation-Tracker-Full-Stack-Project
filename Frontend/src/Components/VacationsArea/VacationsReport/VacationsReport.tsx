@@ -3,6 +3,7 @@ import CanvasJSReact from '../../../Assets/canvasjs.react';
 import VacationModel from '../../../Models/VacationModel';
 import userServices from '../../../Services/UserServices';
 import notify from '../../../Utils/Notify';
+import CsvCreator from '../CsvCreator/CsvCreator';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const CanvasJS = CanvasJSReact.CanvasJS;
 
@@ -30,14 +31,14 @@ const VacationsReport = () => {
                     animationEnabled: true,
                     theme: "light2",
                     title: {
-                        text: "Vacations Popularity"
+                        text: "Vacations Popularity Statistics"
                     },
                     axisX: {
-                        title: "List of Vacation",
+                        title: "List of Vacations",
                         reversed: true,
                     },
                     axisY: {
-                        title: "Following statistics of our vacations",
+                        title: "Number of likes",
                         labelFormatter: addSymbols,
                         interval: 1
                     },
@@ -57,8 +58,9 @@ const VacationsReport = () => {
 
     return (
         <div>
-            <h1>Popularity Statistics</h1>
+            <CsvCreator />
             {options && <CanvasJSChart options={options} />}
+
         </div>
     );
 }

@@ -1,8 +1,44 @@
+.AddVacation {
+   box-sizing: border-box;
+   display: inline-flex;
+   border: 1px solid;
+   flex-direction: row;
+   width: 700px;
+   height: 370px;
+   margin: 20px;
+   text-align: left;
+   justify-content: space-between;
+}
 
+.AddVacation form {
+   margin-top: 10px;
+   margin-left: 10px;
+   display: inline-flex;
+   flex-direction: row;
+   align-items: baseline;
+   text-align: left;
+   left: 0px;
+}
 
 .AddVacation textarea {
+   width: 400px;
+   height: 219px;
+}
 
-   width: 97%;
-   height: 100px;
+.AddVacation input,
+textarea,
+label,
+button {
+   width: 13vw;
+   margin: 10px;
+}
 
+.AddVacation .Add {
+   width: 95%;
+}
+
+.Err {
+   color: red;
+   position: absolute;
+   font-size: large;
 }

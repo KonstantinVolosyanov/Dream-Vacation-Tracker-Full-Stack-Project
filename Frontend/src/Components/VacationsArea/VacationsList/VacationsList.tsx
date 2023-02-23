@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react"
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
@@ -6,7 +6,6 @@ import { authStore } from "../../../Redux/AuthState";
 import { vacationsStore } from "../../../Redux/VacationsState";
 import userServices from "../../../Services/UserServices";
 import notify from "../../../Utils/Notify";
-import CsvCreator from "../CsvCreator/CsvCreator";
 import Pagination from "../Pagination/Pagination";
 import "./VacationsList.css";
 
@@ -48,9 +47,6 @@ function VacationsList(): JSX.Element {
 
     return (
         <div className="VacationsList">
-            {user && user.role === "Admin" && <>
-                <CsvCreator />
-            </>}
 
             {/* Pagination UI */}
             <Pagination user={user} vacations={vacations} setVacations={setVacations} />

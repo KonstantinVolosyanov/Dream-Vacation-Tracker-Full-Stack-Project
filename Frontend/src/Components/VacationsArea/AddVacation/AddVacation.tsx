@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
+import "./AddVacation.css";
 
 function AddVacation(): JSX.Element {
 
@@ -23,7 +24,7 @@ function AddVacation(): JSX.Element {
         setStartDate(args.target.valueAsDate);
     };
 
-   
+
 
     // Send added vacation
     async function send(vacation: VacationModel) {
@@ -43,39 +44,43 @@ function AddVacation(): JSX.Element {
 
 
     return (
-        <div className="AddVacation Box">
+        <div className="AddVacation">
 
             {/* Add vacation form */}
             <form onSubmit={handleSubmit(send)}>
+                <div>
 
-                <label>Destination: </label>
-                <input type="text" {...register("destination", VacationModel.destinationValidation)} />
-                <span className="Err">{formState.errors.destination?.message}</span>
 
-                <label>Description: </label>
-                <textarea {...register("description", VacationModel.descriptionValidation)} />
-                <span className="Err">{formState.errors.description?.message}</span>
+                    <label>Destination: </label>
+                    <input type="text" {...register("destination", VacationModel.destinationValidation)} />
+                    <span className="Err">{formState.errors.destination?.message}</span>
+                    
+                    {/* Start Date - min: Today + on change handler */}
+                    <label>Start date: </label>
+                    <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
+                    <span className="Err">{formState.errors.startDate?.message}</span>
 
-                {/* Start Date - min: Today + on change handler */}
-                <label>Start date: </label>
-                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
-                <span className="Err">{formState.errors.startDate?.message}</span>
+                    <label>End date: </label>
+                    <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
+                    <span className="Err">{formState.errors.endDate?.message}</span>
+                    <label>Price: </label>
+                    <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
+                    <span className="Err">{formState.errors.price?.message}</span>
 
-                <label>End date: </label>
-                <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
-                <span className="Err">{formState.errors.endDate?.message}</span>
+                    <label >Image: </label>
+                    <input className="Button" type="file" accept="image/*" {...register("image", VacationModel.imageValidation)} />
+                    <span className="Err">{formState.errors.image?.message}</span>
+                </div>
+                <div>
 
-                <label>Price: </label>
-                <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
-                <span className="Err">{formState.errors.price?.message}</span>
+                    <label>Description: </label>
+                    <textarea {...register("description", VacationModel.descriptionValidation)} />
+                    <span className="Err">{formState.errors.description?.message}</span>
 
-                <label>Image: </label>
-                <input type="file" accept="image/*" {...register("image", VacationModel.imageValidation)} />
-                <span className="Err">{formState.errors.image?.message}</span>
+                    <img src={vacation?.imageUrl} />
 
-                <img src={vacation?.imageUrl} />
-
-                <button>Add</button>
+                    <button className="Button Add">Add</button>
+                </div>
 
             </form>
         </div>

@@ -22,7 +22,7 @@ function Login(): JSX.Element {
     }
 
     return (
-        <div className="Login Box">
+        <div className="Login">
 
             <h1>WELCOME</h1>
             <br />
@@ -31,7 +31,7 @@ function Login(): JSX.Element {
             <form onSubmit={handleSubmit(send)}>
 
                 <label>Email: </label>
-                <input type="text" {...register("email", CredentialsModel.emailValidation)} />
+                <input type="email" {...register("email", CredentialsModel.emailValidation)} />
                 <span className="Err">{formState.errors.email?.message}</span>
 
                 <label>Password: </label>

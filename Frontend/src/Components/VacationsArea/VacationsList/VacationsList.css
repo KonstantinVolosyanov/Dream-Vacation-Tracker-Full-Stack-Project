@@ -1,7 +1,7 @@
-/* .VacationList>a {
-   position: absolute;
-   right: 20px;
-   top: 80px;
-   text-decoration: none;
-   transform: scale(2);
-} */
+.VacationList {
+   background-image: url("../../../Assets/Images/bg.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+   min-height: 100vh;
+}

@@ -1,3 +1,22 @@
 .CsvCreator {
-	
+   display: inline-block;
+   box-sizing: border-box;
+   margin: auto;
+   text-align: center;
+
+}
+
+.CsvCreator>a {
+   display: block;
+   width: 150px;
+   height: 30px;
+   border: 1px solid;
+   margin: auto;
+   align-content: center;
+   text-align: center;
+   align-items: center;
+   color: black;
+   margin-bottom: 20px;
+   margin-top: 20px;
+
 }
