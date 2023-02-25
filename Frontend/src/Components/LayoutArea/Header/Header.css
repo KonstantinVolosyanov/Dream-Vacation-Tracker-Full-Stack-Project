@@ -5,3 +5,7 @@
    font-size: x-large;
    margin-top: -1vw;
 }
+
+.Header h1 {
+   margin-bottom: 10px;
+}

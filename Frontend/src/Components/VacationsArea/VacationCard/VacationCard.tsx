@@ -14,7 +14,14 @@ interface VacationCardProps {
 
 }
 
+
 function VacationCard(props: VacationCardProps): JSX.Element {
+
+    const [transitionComplete, setTransitionComplete] = useState(false);
+
+    const handleTransitionEnd = () => {
+        setTransitionComplete(true);
+    };
 
     const params = useParams();
 
@@ -73,22 +80,22 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     <div className="Price">
                         {props.vacation.price}$
                     </div>
-                    <div className="Count">
-                        {props.vacation.followersCount}
-                    </div>
                     <div className="Follow">
                         {isFollowing ? (
                             <button className="ufbtn" onClick={handleUnfollow}>❤</button>
                         ) : (
                             <button className="fbtn" onClick={handleFollow}>❤</button>
                         )}
-                    </div>
-                    <div className="Destination">
-                        {props.vacation.destination}
+                        <div className="Count">
+                            {props.vacation.followersCount}
+                        </div>
                     </div>
                     <div className="Dates">
                         📅  {formatDate(props.vacation.startDate) + " - "}
                         {formatDate(props.vacation.endDate)}
+                    </div>
+                    <div className="Destination">
+                        {props.vacation.destination}
                     </div>
                     <div className="Bio">
                         {props.vacation.description}
@@ -106,14 +113,14 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     <div className="Price">
                         {props.vacation.price}$
                     </div>
-                    <button className="Add"><NavLink to={"/update-vacation/" + props.vacation.vacationId}>🖊</NavLink></button>
+                    <button className="Edit"><NavLink to={"/update-vacation/" + props.vacation.vacationId}>🖊</NavLink></button>
                     <button onClick={deleteMe} className="Delete">✖</button>
-                    <div className="Destination">
-                        {props.vacation.destination}
-                    </div>
                     <div className="Dates">
                         📅 {formatDate(props.vacation.startDate) + "  -  "}
                         {formatDate(props.vacation.endDate)}
+                    </div>
+                    <div className="Destination">
+                        {props.vacation.destination}
                     </div>
                     <div className="Bio">
                         {props.vacation.description}

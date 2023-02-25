@@ -14,6 +14,12 @@
    border-radius: 10px;
    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
    transition: all 0.2s;
+   overflow: hidden;
+}
+
+.VacationCard .CardContainer {
+   box-sizing: border-box;
+   position: absolute;
 }
 
 /* Image */
@@ -64,11 +70,11 @@
    font-size: xxx-large;
    background-color: transparent;
    cursor: pointer;
-   color: darkcyan;
+   color: rgb(100, 136, 177);
 }
 
-/* Add Button */
-.VacationCard .Add {
+/* Edit Button */
+.VacationCard .Edit {
    position: absolute;
    box-sizing: border-box;
    width: 40px;
@@ -83,7 +89,11 @@
    color: white;
 }
 
-/* Edit Button */
+.VacationCard .Edit:hover {
+   color: rgb(100, 136, 177);
+}
+
+/* Delete Button */
 .VacationCard .Delete {
    position: absolute;
    box-sizing: border-box;
@@ -96,6 +106,10 @@
    background-color: transparent;
    cursor: pointer;
    color: white;
+}
+
+.VacationCard .Delete:hover {
+   color: rgb(100, 136, 177);
 }
 
 /* Price */
@@ -119,13 +133,12 @@
    position: absolute;
    box-sizing: border-box;
    width: 10px;
-   margin-left: 6px;
-   margin-top: 0px;
    font-size: x-large;
    display: inline-block;
    color: black;
-   margin-left: 27.5px;
-   margin-top: 17.5px;
+   margin-left: 22px;
+   margin-top: 7px;
+   pointer-events: none;
 }
 
 /* Destination */
@@ -136,6 +149,8 @@
    color: white;
    margin-top: 155px;
    margin-left: 5px;
+   overflow: hidden;
+   transition: 0.3s ease-in-out;
 }
 
 /* Dates */
@@ -151,9 +166,12 @@
    box-shadow: 0px -10px-10px rgba(0, 0, 0, 0.25);
    border: none;
    padding: 5px;
-   background-color: darkcyan;
+   background-color: rgb(100, 136, 177);
    color: white;
+   overflow: hidden;
+   transition: 0.3s ease-in-out;
 }
+
 
 /* Bio */
 .VacationCard .Bio {
@@ -167,13 +185,45 @@
    box-shadow: 0px -6px 10px rgba(0, 0, 0, 0.25);
    border: none;
    background-color: lightblue;
-   overflow: auto;
+   overflow: hidden;
    padding: 10px;
+   transition: 0.3s ease-in-out;
 }
+
+
+.VacationCard:hover .Destination {
+   position: absolute;
+   height: 400px;
+   margin-top: 40px;
+   transition: 0.3s ease-in-out;
+
+}
+
+.VacationCard:hover .Dates {
+   position: absolute;
+   height: 400px;
+   margin-top: 78px;
+   transition: 0.3s ease-in-out;
+
+}
+
+.VacationCard:hover .Bio {
+   position: absolute;
+   height: 400px;
+   margin-top: 110px;
+   transition: 0.3s ease-in-out;
+   overflow: auto;
+}
+
 
 /* Links */
 .VacationCard a {
    color: white;
+}
+
+.VacationCard a:hover {
+   color: rgb(100, 136, 177);
+   ;
 }
 
 /* Scrollbar */

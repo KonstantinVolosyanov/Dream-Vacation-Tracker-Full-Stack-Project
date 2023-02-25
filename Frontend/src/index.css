@@ -1,18 +1,16 @@
+/* Fonts */
 @font-face {
     font-family: lobster;
     src: url(./Assets/Fonts/Lobster-Regular.ttf);
 }
 
-/* @font-face {
-    font-family: glock;
-    src: url(./Assets/Fonts/Gloock-Regular.ttf);
-} */
 
 @font-face {
     font-family: titillium;
     src: url(./Assets/Fonts/TitilliumWeb-Regular.ttf);
 }
 
+/* Body */
 html,
 body,
 #root {
@@ -23,30 +21,175 @@ body,
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    min-height: 100%;
-    height: 100%;
+    min-height: 100vh;
     text-align: center;
     font-size: large;
     font-family: titillium;
 }
 
-
-
 a {
-    color: lightblue;
+    color: rgb(25, 25, 87);
     text-decoration: none;
 }
 
-form {
-    margin: auto;
-    border-radius: 10px;
+
+
+
+/* Auth Form */
+.AuthForm {
     box-sizing: border-box;
+    display: inline-flex;
+    margin-top: 40px;
+    border: none;
+    border-radius: 12px;
+    flex-direction: column;
     width: 300px;
+    height: auto;
+    padding: 20px;
     text-align: left;
+    background-color: rgb(100, 136, 177);
+    color: white;
+}
+
+.AuthForm>button {
+    margin: 0px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100%;
+    height: 40px;
+    background: none;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.AuthForm>button:hover {
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    transition: 0.5s ease-in-out;
+}
+
+.AuthForm h1,
+h2 {
+    text-align: center;
+    color: white;
+}
+
+.AuthForm p {
+    text-align: center;
+}
+
+.AuthForm>input {
+    border-radius: 5px;
+    border: none;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.AuthForm label {
+    margin-bottom: 10px;
+    padding: 0px;
+    color: white;
+}
+
+/* Add-Edit Form: */
+.AddEditForm {
+    box-sizing: border-box;
+    display: inline-flex;
+    border: 1px solid;
+    flex-direction: row;
+    border: none;
+    border-radius: 12px;
+    width: 660px;
+    height: auto;
+    margin: 10vh;
+    text-align: left;
+    justify-content: space-between;
+    background-color: rgb(100, 136, 177);
+    padding: 20px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.AddEditForm form {
+    margin-left: 10px;
+    display: inline-flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: baseline;
+    text-align: left;
+    left: 0px;
+}
+
+.AddEditForm form>div {
+    display: inline-flex;
+    flex-direction: column;
 }
 
 
-ul,
-li {
-    text-decoration: none;
+.AddEditForm textarea {
+    width: 380px;
+    height: 219px;
+}
+
+.AddEditForm input,
+label {
+    width: 180px;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.AddEditForm .Err {
+    color: darkred;
+    font-size: large;
+    text-align: left;
+
+}
+
+.AddEditForm span {
+    display: block;
+    position: relative;
+    margin-top: -5px;
+}
+
+
+.AddEditForm img {
+    display: block;
+    width: 10vw;
+}
+
+.AddEditForm button {
+    margin: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 40px;
+    background: none;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+.AddEditForm button:hover {
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    transition: 0.5s ease-in-out;
+}
+
+
+.AddEditForm label {
+    margin: 0px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.AddEditForm img {
+    margin-top: 10px;
+    display: block;
+    width: 10vw;
 }

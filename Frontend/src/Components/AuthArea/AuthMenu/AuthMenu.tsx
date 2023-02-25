@@ -31,18 +31,19 @@ function AuthMenu(): JSX.Element {
 
             {!user && <>
 
-                <span>Hello Guest | </span>
+                <span className="UserName">Hello Guest </span>
+                <span className="Pipe"> | </span>
 
                 <NavLink to="/login">Login</NavLink>
 
-                <span> | </span>
+                <span className="Pipe"> | </span>
 
-                <NavLink to="/Register">Register</NavLink>
+                <NavLink to="/register">Register</NavLink>
 
             </>}
             {user && <>
 
-                <span>Hello {user.firstName} {user.lastName} | </span>
+                <span>Hello {user.firstName} {user.lastName}<span className="Pipe"> | </span></span>
 
                 <NavLink to="/home" onClick={logout}>Logout</NavLink>
 

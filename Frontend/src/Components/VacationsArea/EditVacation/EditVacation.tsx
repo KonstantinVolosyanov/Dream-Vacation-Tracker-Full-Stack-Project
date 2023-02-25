@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
-
+import "./EditVacation.css";
 
 function EditVacation(): JSX.Element {
 
@@ -13,18 +13,33 @@ function EditVacation(): JSX.Element {
     const navigate = useNavigate();
     const params = useParams();
 
+    // Load vacation data from local storage whenever it changes
+    useEffect(() => {
+        const storedVacation = JSON.parse(localStorage.getItem(`vacation-${params.vacationId}`) || '{}');
+        setVacation(storedVacation);
+    }, [params.vacationId]);
+
+    // Save vacation data to local storage whenever it changes
+    useEffect(() => {
+        if (vacation) {
+            localStorage.setItem(`vacation-${vacation.vacationId}`, JSON.stringify(vacation));
+        }
+    }, [vacation]);
+
 
     useEffect(() => {
         adminServices.getOneVacation(+params.vacationId)
             .then(vacation => {
                 setVacation(vacation);
-                setValue("vacationId", vacation.vacationId);
-                setValue("destination", vacation.destination);
-                setValue("description", vacation.description);
-                setValue("startDate", vacation.startDate);
-                setValue("endDate", vacation.endDate);
-                setValue("price", vacation.price);
-                setStartDate(new Date(vacation.startDate));
+                if (vacation) {
+                    setValue("vacationId", vacation.vacationId);
+                    setValue("destination", vacation.destination);
+                    setValue("description", vacation.description);
+                    setValue("startDate", vacation.startDate);
+                    setValue("endDate", vacation.endDate);
+                    setValue("price", vacation.price);
+                    setStartDate(new Date(vacation.startDate));
+                }
             })
             .catch(err => notify.error(err));
     }, []);
@@ -50,45 +65,46 @@ function EditVacation(): JSX.Element {
     };
 
     return (
-        <div className="EditVacation Box">
+        <div className="AddEditForm">
 
-            <h2>Edit Vacation</h2>
+            {/* <h2>Edit Vacation</h2> */}
 
             <form onSubmit={handleSubmit(send)}>
-
                 {/* Hiding Id */}
                 <input type="hidden" {...register("vacationId")} />
+                <div>
 
-                <label>Destination: </label>
-                <input type="text" {...register("destination", VacationModel.destinationValidation)} />
-                <span className="Err">{formState.errors.destination?.message}</span>
+                    <label>Destination: </label>
+                    <input type="text" {...register("destination", VacationModel.destinationValidation)} />
+                    <span className="Err">{formState.errors.destination?.message}</span>
 
-                <label>Description: </label>
-                <textarea {...register("description", VacationModel.descriptionValidation)} />
-                <span className="Err">{formState.errors.description?.message}</span>
+                    {/* Start Date: min = Today , onchange handler, value = previous Start Date */}
+                    <label>Start date: </label>
+                    <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />
+                    <span className="Err">{formState.errors.startDate?.message}</span>
 
-                {/* Start Date: min = Today , onchange handler, value = previous Start Date */}
-                <label>Start date: </label>
+                    {/* End Date: minimum => Start Date, value = previous EndDate */}
+                    <label>End date: </label>
+                    <input type="date" {...register("endDate", VacationModel.endDateValidation)} value={vacation?.endDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />
+                    <span className="Err">{formState.errors.endDate?.message}</span>
 
-                <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
-                <span className="Err">{formState.errors.startDate?.message}</span>
+                    <label>Price: </label>
+                    <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
+                    <span className="Err">{formState.errors.price?.message}</span>
 
-                {/* End Date: minimum => Start Date, value = previous EndDate */}
-                <label>End date: </label>
-                <input type="date" {...register("endDate", VacationModel.endDateValidation)} value={vacation?.endDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />;
-                <span className="Err">{formState.errors.endDate?.message}</span>
+                    <label>Image: </label>
+                    <input type="file" accept="image/*" {...register("image", VacationModel.imagePutValidation)} />
+                    <span className="Err">{formState.errors.image?.message}</span>
+                </div>
+                <div>
+                    <label>Description: </label>
+                    <textarea {...register("description", VacationModel.descriptionValidation)} />
+                    <span className="Err">{formState.errors.description?.message}</span>
 
-                <label>Price: </label>
-                <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
-                <span className="Err">{formState.errors.price?.message}</span>
+                    <img src={vacation?.imageUrl} />
 
-                <label>Image: </label>
-                <input type="file" accept="image/*" {...register("image", VacationModel.imagePutValidation)} />
-                <span className="Err">{formState.errors.image?.message}</span>
-
-                <img src={vacation?.imageUrl} />
-
-                <button>Update</button>
+                    <button>Update</button>
+                </div>
 
             </form>
 

@@ -37,13 +37,13 @@ function Menu(): JSX.Element {
 
             {/* Show in menu if user role = Admin */}
             {user && user.role === "Admin" && <>
-                <span> &nbsp; &nbsp; | &nbsp; &nbsp; </span>
-                <NavLink to="/add-vacation">Add Vacation</NavLink>
-                <span> &nbsp; &nbsp; | &nbsp; &nbsp; </span>
-                <NavLink to="/vacations-report">Statistics</NavLink>
-                <span>  &nbsp; &nbsp; | &nbsp; &nbsp; </span>
+                <span >  &nbsp; &nbsp; | &nbsp; &nbsp; </span>
                 <NavLink to="/vacations-list">Vacation-List</NavLink>
-                <span> &nbsp;  &nbsp;| &nbsp;  </span>
+                <span > &nbsp; &nbsp; | &nbsp; &nbsp; </span>
+                <NavLink to="/add-vacation">Add Vacation</NavLink>
+                <span > &nbsp; &nbsp; | &nbsp; &nbsp; </span>
+                <NavLink to="/vacations-report">Statistics</NavLink>
+                <span > &nbsp;  &nbsp;| &nbsp;  </span>
 
             </>}
 

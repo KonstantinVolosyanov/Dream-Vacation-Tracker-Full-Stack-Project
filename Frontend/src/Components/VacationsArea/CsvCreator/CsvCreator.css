@@ -1,8 +1,10 @@
 .CsvCreator {
+   margin-top: 200px;
    display: inline-block;
-   box-sizing: border-box;
+   width: 100%;
    margin: auto;
    text-align: center;
+   background-color: rgb(100, 136, 177);
 
 }
 
@@ -15,7 +17,7 @@
    align-content: center;
    text-align: center;
    align-items: center;
-   color: black;
+   color: white;
    margin-bottom: 20px;
    margin-top: 20px;
 

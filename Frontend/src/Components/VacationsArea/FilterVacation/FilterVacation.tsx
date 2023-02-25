@@ -51,15 +51,15 @@ const FilterVacation: React.FC<Props> = ({ vacations, setTotalFilteredVacations,
     return (
         <div className="FilterVacation">
             {user && user.role === "User" && <>
-                <div className="filter-container">
-                    <label>Filter: </label>
-                    <button onClick={() => onFilterChange("all")}>All</button>
-                    <span> | </span>
-                    <button onClick={() => onFilterChange("following")}>Following</button>
-                    <span> | </span>
-                    <button onClick={() => onFilterChange("today")}>Active</button>
-                    <span> | </span>
-                    <button onClick={() => onFilterChange("future")}>Future</button>
+                <div className="FilterContainer">
+                    {/* <label>Filter: </label> */}
+                    <button className="FilterButton" onClick={() => onFilterChange("all")}>All</button>
+                    <span> &nbsp; | &nbsp; </span>
+                    <button className="FilterButton" onClick={() => onFilterChange("following")}>Following</button>
+                    <span> &nbsp;| &nbsp;</span>
+                    <button className="FilterButton" onClick={() => onFilterChange("today")}>Active</button>
+                    <span>&nbsp; | &nbsp;</span>
+                    <button className="FilterButton" onClick={() => onFilterChange("future")}>Future</button>
                 </div>
             </>}
         </div>

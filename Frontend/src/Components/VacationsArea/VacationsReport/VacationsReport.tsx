@@ -27,24 +27,36 @@ const VacationsReport = () => {
             .then(vacations => {
                 setVacations(vacations);
                 const dataPoints = vacations.map(v => ({ y: v.followersCount, label: v.destination }));
+                dataPoints.sort((a, b) => b.y - a.y); // sort the array in descending order
                 const options = {
+                    backgroundColor: "rgb(100, 136, 177)",
                     animationEnabled: true,
-                    theme: "light2",
+                    theme: "light1",
+
+                    textAlign: "center",
                     title: {
-                        text: "Vacations Popularity Statistics"
+                        text: "Vacations Popularity Statistics",
+                        fontColor: "White",
+                        fontFamily: "titillium"
                     },
                     axisX: {
-                        title: "List of Vacations",
+                        title: "List of Vacation",
+                        titleFontColor: "white",
+                        titleFontFamily: "titillium",
                         reversed: true,
+                        interval: 1 //Every Label
                     },
                     axisY: {
                         title: "Number of likes",
+                        titleFontColor: "white",
+                        titleFontFamily: "titillium",
                         labelFormatter: addSymbols,
-                        interval: 1
+                        interval: 1, // Like must only be decimal
                     },
                     data: [{
                         type: "bar",
-                        dataPoints: dataPoints
+                        vertical: true,
+                        dataPoints: dataPoints,
                     }]
                 };
                 return options;
@@ -57,10 +69,11 @@ const VacationsReport = () => {
     }, []);
 
     return (
-        <div>
-            <CsvCreator />
-            {options && <CanvasJSChart options={options} />}
-
+        <div className='VacationsReport'>
+            <div className="VacationsReportContainer">
+                <CsvCreator />
+                {options && <CanvasJSChart options={options} />}
+            </div>
         </div>
     );
 }

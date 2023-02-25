@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import authService from "../../../Services/AuthServices";
@@ -22,11 +23,11 @@ function Register(): JSX.Element {
     }
 
     return (
-        <div className="Register Box">
+        <div className="Register">
 
-            <h2>Register</h2>
 
-            <form onSubmit={handleSubmit(send)}>
+            <form className="AuthForm" onSubmit={handleSubmit(send)}>
+                <h1>Register</h1>
 
                 <label>First name: </label>
                 <input type="text" {...register("firstName", UserModel.firstNameValidation)} />
@@ -45,6 +46,7 @@ function Register(): JSX.Element {
                 <span className="Err">{formState.errors.password?.message}</span>
 
                 <button>Register</button>
+                <p>I already registered, please <NavLink to={"/login"}>Login</NavLink></p>
 
             </form>
 

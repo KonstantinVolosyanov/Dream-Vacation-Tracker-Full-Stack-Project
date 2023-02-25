@@ -2,5 +2,9 @@
    position: absolute;
    top: 5px;
    right: 20px;
-   color: peachpuff
+   color: skyblue;
+}
+
+.Pipe {
+   color: rgb(25, 25, 87);
 }

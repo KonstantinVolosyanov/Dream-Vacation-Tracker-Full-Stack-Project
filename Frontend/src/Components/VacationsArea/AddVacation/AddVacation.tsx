@@ -25,7 +25,6 @@ function AddVacation(): JSX.Element {
     };
 
 
-
     // Send added vacation
     async function send(vacation: VacationModel) {
         try {
@@ -44,7 +43,7 @@ function AddVacation(): JSX.Element {
 
 
     return (
-        <div className="AddVacation">
+        <div className="AddEditForm">
 
             {/* Add vacation form */}
             <form onSubmit={handleSubmit(send)}>
@@ -54,7 +53,7 @@ function AddVacation(): JSX.Element {
                     <label>Destination: </label>
                     <input type="text" {...register("destination", VacationModel.destinationValidation)} />
                     <span className="Err">{formState.errors.destination?.message}</span>
-                    
+
                     {/* Start Date - min: Today + on change handler */}
                     <label>Start date: </label>
                     <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
@@ -77,7 +76,7 @@ function AddVacation(): JSX.Element {
                     <textarea {...register("description", VacationModel.descriptionValidation)} />
                     <span className="Err">{formState.errors.description?.message}</span>
 
-                    <img src={vacation?.imageUrl} />
+                    {/* <img src={vacation?.imageUrl} /> */}
 
                     <button className="Button Add">Add</button>
                 </div>
