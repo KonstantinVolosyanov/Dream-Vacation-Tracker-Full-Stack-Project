@@ -1,6 +1,7 @@
 
 class AppConfig {
-
+    
+    // Links
     public adminVacationsUrl = "http://localhost:4000/api/admin/vacations/";
     public userVacationsUrl = "http://localhost:4000/api/user/vacations/";
     public userFollowUrl = "http://localhost:4000/api/user/follow/";

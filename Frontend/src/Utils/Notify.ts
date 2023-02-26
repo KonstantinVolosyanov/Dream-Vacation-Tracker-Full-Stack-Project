@@ -2,21 +2,25 @@ import { Notyf } from "notyf";
 
 class Notify {
 
+   // Main options:
    private notyf = new Notyf({
       duration: 3000,
       position: { x: "right", y: "bottom" },
       dismissible: true
    });
 
+   // Success window
    public success(message: string): void {
       this.notyf.success(message);
    }
 
+   // Error window:
    public error(err: any): void {
       const message = this.extractErrorMessage(err);
       this.notyf.error(message);
    }
 
+   // All error types:
    private extractErrorMessage(err: any): string {
 
       if (typeof err === "string") return err;

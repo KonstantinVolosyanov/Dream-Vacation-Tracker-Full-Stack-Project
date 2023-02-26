@@ -61,11 +61,7 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
         case VacationsActionType.Follow:
             const indexToFollow = newState.vacations.findIndex(v => v.vacationId === action.payload);
             if (indexToFollow >= 0) {
-                newState.vacations[indexToFollow] = {
-                    ...newState.vacations[indexToFollow],
-                    isFollowing: true,
-                    followersCount: newState.vacations[indexToFollow].followersCount + 1
-                }
+                newState.vacations[indexToFollow] = { ...newState.vacations[indexToFollow], isFollowing: true, followersCount: newState.vacations[indexToFollow].followersCount + 1 }
             }
             break;
 
@@ -73,11 +69,7 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
         case VacationsActionType.Unfollow:
             const indexToUnfollow = newState.vacations.findIndex(v => v.vacationId === action.payload);
             if (indexToUnfollow >= 0) {
-                newState.vacations[indexToUnfollow] = {
-                    ...newState.vacations[indexToUnfollow],
-                    isFollowing: false,
-                    followersCount: newState.vacations[indexToUnfollow].followersCount - 1
-                };
+                newState.vacations[indexToUnfollow] = { ...newState.vacations[indexToUnfollow], isFollowing: false, followersCount: newState.vacations[indexToUnfollow].followersCount - 1 };
             }
             break;
 

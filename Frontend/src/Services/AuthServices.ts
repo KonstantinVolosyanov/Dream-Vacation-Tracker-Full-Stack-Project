@@ -10,6 +10,7 @@ class AuthServices {
 
     // Register:
     public async register(user: UserModel): Promise<void> {
+
         // Send user to backend:
         const response = await axios.post<string>(appConfig.registerUrl, user);
 
@@ -21,11 +22,13 @@ class AuthServices {
 
         // Send token to global state:
         authStore.dispatch({ type: AuthActionType.Register, payload: token });
+
     }
 
 
     // Login:
     public async login(credentials: CredentialsModel): Promise<void> {
+
         // Send credentials to backend:
         const response = await axios.post<string>(appConfig.loginUrl, credentials);
 
@@ -34,18 +37,23 @@ class AuthServices {
 
         // Send token to global state:
         authStore.dispatch({ type: AuthActionType.Login, payload: token });
+
     }
 
 
     // Logout:
     public logout(): void {
+
         authStore.dispatch({ type: AuthActionType.Logout });
+
         // Empty vacationStore on logout:
         vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: [] })
+
     }
 
     // Is user logged in:
     public isLoggedIn(): boolean {
+        
         return authStore.getState().token !== null;
     }
 

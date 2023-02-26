@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import authService from "../../../Services/AuthServices";
 import notify from "../../../Utils/Notify";
-import "./Register.css";
 
 function Register(): JSX.Element {
 
+    // Use Form:
     const { register, handleSubmit, formState } = useForm<UserModel>();
+
+    //Use Navigate:
     const navigate = useNavigate();
 
+    // Send function for handle Register:
     async function send(user: UserModel) {
         try {
             await authService.register(user);
@@ -24,7 +27,6 @@ function Register(): JSX.Element {
 
     return (
         <div className="Register">
-
 
             <form className="AuthForm" onSubmit={handleSubmit(send)}>
                 <h1>Register</h1>
@@ -46,7 +48,7 @@ function Register(): JSX.Element {
                 <span className="Err">{formState.errors.password?.message}</span>
 
                 <button>Register</button>
-                <p>I already registered, please <NavLink to={"/login"}>Login</NavLink></p>
+                <p>I already registered, please: <NavLink to={"/login"}>Login</NavLink></p>
 
             </form>
 

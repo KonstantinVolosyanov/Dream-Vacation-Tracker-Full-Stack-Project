@@ -1,3 +1,26 @@
 .PageNotFound {
-	
+   box-sizing: border-box;
+   position: relative;
+   width: 100%;
+   height: 100vh;
+   margin: 0;
+   padding: 0;
 }
+
+.PageNotFound>img {
+   box-sizing: border-box;
+   top: 50px;
+   width: 100vh;
+   display: block;
+   border-radius: 30px;
+   text-align: center;
+   margin: auto;
+   margin-top: 40px;
+}
+
+.PageNotFound>h2 {
+   box-sizing: border-box;
+   color: White;
+}
+
+

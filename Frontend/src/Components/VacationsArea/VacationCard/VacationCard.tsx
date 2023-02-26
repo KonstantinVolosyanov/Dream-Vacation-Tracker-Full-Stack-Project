@@ -11,17 +11,9 @@ interface VacationCardProps {
     vacation: VacationModel;
     deleteVacation: (vacationId: number) => Promise<void>;
     user: UserModel;
-
 }
 
-
 function VacationCard(props: VacationCardProps): JSX.Element {
-
-    const [transitionComplete, setTransitionComplete] = useState(false);
-
-    const handleTransitionEnd = () => {
-        setTransitionComplete(true);
-    };
 
     const params = useParams();
 
@@ -82,16 +74,16 @@ function VacationCard(props: VacationCardProps): JSX.Element {
                     </div>
                     <div className="Follow">
                         {isFollowing ? (
-                            <button className="ufbtn" onClick={handleUnfollow}>❤</button>
+                            <button className="UnfollowBtn" onClick={handleUnfollow}>❤</button>
                         ) : (
-                            <button className="fbtn" onClick={handleFollow}>❤</button>
+                            <button className="FollowBtn" onClick={handleFollow}>❤</button>
                         )}
                         <div className="Count">
                             {props.vacation.followersCount}
                         </div>
                     </div>
                     <div className="Dates">
-                        📅  {formatDate(props.vacation.startDate) + " - "}
+                        📅 {formatDate(props.vacation.startDate) + " - "}
                         {formatDate(props.vacation.endDate)}
                     </div>
                     <div className="Destination">

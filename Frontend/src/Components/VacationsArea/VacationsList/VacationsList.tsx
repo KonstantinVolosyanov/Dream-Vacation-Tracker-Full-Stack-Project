@@ -21,7 +21,7 @@ function VacationsList(): JSX.Element {
             navigate("/login")
         }
         setUser(authStore.getState().user);
-        // Listen to AuthState changes:
+        // Listen to AuthState changes + unsubscribe:
         const unsubscribe = authStore.subscribe(() => {
             setUser(authStore.getState().user);
         });
@@ -36,8 +36,7 @@ function VacationsList(): JSX.Element {
         userServices.getAllVacations()
             .then(vacations => setVacations(vacations))
             .catch(err => notify.error(err));
-
-
+            // Subscribe for changes + unsubscribe:
         const unsubscribe = vacationsStore.subscribe(() => {
             setVacations(v => vacationsStore.getState().vacations);
         });

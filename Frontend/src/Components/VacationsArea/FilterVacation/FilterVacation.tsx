@@ -11,11 +11,8 @@ interface Props {
 }
 
 const FilterVacation: React.FC<Props> = ({ vacations, setTotalFilteredVacations, user, setCurrentPage }) => {
-    // Starting filtering on "All"
-    // const [filter, setFilter] = useState<string>("all");
-
+  
     const [filter, setFilter] = useState<string>("all");
-
 
     const onFilterChange = (filter: string) => {
         // Setting Filter:
@@ -42,24 +39,29 @@ const FilterVacation: React.FC<Props> = ({ vacations, setTotalFilteredVacations,
             }
             return true;
         });
-
         setTotalFilteredVacations(filtered);
     }, [filter, vacations]);
-
 
 
     return (
         <div className="FilterVacation">
             {user && user.role === "User" && <>
                 <div className="FilterContainer">
-                    {/* <label>Filter: </label> */}
+    
                     <button className="FilterButton" onClick={() => onFilterChange("all")}>All</button>
+
                     <span> &nbsp; | &nbsp; </span>
+
                     <button className="FilterButton" onClick={() => onFilterChange("following")}>Following</button>
+
                     <span> &nbsp;| &nbsp;</span>
+
                     <button className="FilterButton" onClick={() => onFilterChange("today")}>Active</button>
+
                     <span>&nbsp; | &nbsp;</span>
+
                     <button className="FilterButton" onClick={() => onFilterChange("future")}>Future</button>
+
                 </div>
             </>}
         </div>

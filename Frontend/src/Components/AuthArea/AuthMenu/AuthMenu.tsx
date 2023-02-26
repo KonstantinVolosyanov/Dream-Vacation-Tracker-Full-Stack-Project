@@ -7,12 +7,12 @@ import "./AuthMenu.css";
 
 function AuthMenu(): JSX.Element {
 
+    //  Use State for user
     const [user, setUser] = useState<UserModel>();
 
+    // Use Effect and Subscribe for user
     useEffect(() => {
-
         setUser(authStore.getState().user);
-
         // Listen to AuthState changes:
         const unsubscribe = authStore.subscribe(() => {
             setUser(authStore.getState().user);
@@ -20,7 +20,7 @@ function AuthMenu(): JSX.Element {
         return unsubscribe;
     }, []);
 
-
+    // Logout function
     function logout(): void {
         authServices.logout();
     }
@@ -28,10 +28,11 @@ function AuthMenu(): JSX.Element {
 
     return (
         <div className="AuthMenu">
-
+            {/* If not user: */}
             {!user && <>
 
                 <span className="UserName">Hello Guest </span>
+
                 <span className="Pipe"> | </span>
 
                 <NavLink to="/login">Login</NavLink>
@@ -41,6 +42,7 @@ function AuthMenu(): JSX.Element {
                 <NavLink to="/register">Register</NavLink>
 
             </>}
+            {/* Is user: */}
             {user && <>
 
                 <span>Hello {user.firstName} {user.lastName}<span className="Pipe"> | </span></span>

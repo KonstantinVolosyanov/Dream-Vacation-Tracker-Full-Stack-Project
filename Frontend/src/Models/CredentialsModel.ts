@@ -10,7 +10,7 @@ class CredentialsModel {
     public static emailValidation: RegisterOptions = {
         required: { value: true, message: "Missing email" },
         minLength: { value: 8, message: "Email must be minimum 8 chars" },
-        maxLength: { value: 30, message: "Email can't exceeds 30 chars" },
+        maxLength: { value: 30, message: "Email can't exceed 30 chars" },
         // Valid email pattern
         pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i,
@@ -23,7 +23,7 @@ class CredentialsModel {
     public static passwordValidation: RegisterOptions = {
         required: { value: true, message: "Missing password" },
         minLength: { value: 4, message: "Password must be minimum 4 chars" },
-        maxLength: { value: 30, message: "Password can't exceeds 30 chars" }
+        maxLength: { value: 30, message: "Password can't exceed 30 chars" }
     };
 }
 

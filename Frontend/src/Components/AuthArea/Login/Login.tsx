@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import CredentialsModel from "../../../Models/CredentialsModel";
 import authService from "../../../Services/AuthServices";
 import notify from "../../../Utils/Notify";
-import "./Login.css";
+
 
 function Login(): JSX.Element {
 
+    // Use Form:
     const { register, handleSubmit, formState } = useForm<CredentialsModel>();
+    // Use Navigate:
     const navigate = useNavigate();
 
+    // Send function for handle login:
     async function send(credentials: CredentialsModel) {
         try {
             await authService.login(credentials);
@@ -25,9 +28,8 @@ function Login(): JSX.Element {
     return (
         <div className="Login">
 
-
             <form className="AuthForm" onSubmit={handleSubmit(send)}>
-                <h1>WELCOME</h1>
+                <h1>Welcome</h1>
 
                 <label>Email: </label>
                 <input type="email" {...register("email", CredentialsModel.emailValidation)} />
@@ -39,7 +41,7 @@ function Login(): JSX.Element {
 
                 <button>Login</button>
 
-                <p>If not a user, please <NavLink to={"/register"}>Register</NavLink></p>
+                <p>If not a user, please:<NavLink to={"/register"}>&nbsp;Register</NavLink></p>
 
             </form>
 

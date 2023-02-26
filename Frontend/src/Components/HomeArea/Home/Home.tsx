@@ -4,15 +4,17 @@ import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
 import Login from "../../AuthArea/Login/Login";
 import VacationsList from "../../VacationsArea/VacationsList/VacationsList";
-import "./Home.css";
 
 
 function Home(): JSX.Element {
 
-
+    // User Use State:
     const [user, setUser] = useState<UserModel>();
+
+    //Use Navigate:
     const navigate = useNavigate();
 
+    // Set user and subscribe for changes:
     useEffect(() => {
 
         setUser(authStore.getState().user);
@@ -31,7 +33,9 @@ function Home(): JSX.Element {
     return (
         <div className="Home">
             <>
+                {/* If user - Vacation List */}
                 {user && <VacationsList />}
+                {/* If not user - go to login */}
                 {!user && <Login />}
             </>
         </div >

@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
-import "./EditVacation.css";
 
 function EditVacation(): JSX.Element {
 
@@ -38,7 +38,14 @@ function EditVacation(): JSX.Element {
                     setValue("startDate", vacation.startDate);
                     setValue("endDate", vacation.endDate);
                     setValue("price", vacation.price);
-                    setStartDate(new Date(vacation.startDate));
+                    const defaultStartDate = new Date(vacation.startDate);
+                    defaultStartDate.setDate(defaultStartDate.getDate() + 1);
+                    setStartDate(defaultStartDate);
+
+                    const defaultEndDate = new Date(vacation.endDate);
+                    defaultEndDate.setDate(defaultEndDate.getDate() + 1);
+                    setEndDate(defaultEndDate);
+
                 }
             })
             .catch(err => notify.error(err));
@@ -58,56 +65,70 @@ function EditVacation(): JSX.Element {
 
     // Start date state for past date validation
     const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     // Past date validation handler
     const handleStartDateChange = (args: ChangeEvent<HTMLInputElement>) => {
-        setStartDate(args.target.valueAsDate);
+        const selectedDate = new Date(args.target.value);
+        setStartDate(selectedDate);
+        setValue("startDate", selectedDate.toISOString().split("T")[0]);
+    };
+    const handleEndDateChange = (args: ChangeEvent<HTMLInputElement>) => {
+        const selectedDate = new Date(args.target.value);
+        setEndDate(selectedDate);
+        setValue("endDate", selectedDate.toISOString().split("T")[0]);
     };
 
     return (
-        <div className="AddEditForm">
+        <div>
+            <h2 className="AddVacationH2">Edit Vacation</h2>
 
-            {/* <h2>Edit Vacation</h2> */}
+            <div className="AddEditForm">
 
-            <form onSubmit={handleSubmit(send)}>
-                {/* Hiding Id */}
-                <input type="hidden" {...register("vacationId")} />
-                <div>
 
-                    <label>Destination: </label>
-                    <input type="text" {...register("destination", VacationModel.destinationValidation)} />
-                    <span className="Err">{formState.errors.destination?.message}</span>
+                <form onSubmit={handleSubmit(send)}>
+                    {/* Hiding Id */}
+                    <input type="hidden" {...register("vacationId")} />
+                    <div>
+                        <br></br>
+                        <br></br>
+                        <label>Destination: </label>
+                        <input type="text" {...register("destination", VacationModel.destinationValidation)} />
+                        <span className="Err">{formState.errors.destination?.message}</span>
 
-                    {/* Start Date: min = Today , onchange handler, value = previous Start Date */}
-                    <label>Start date: </label>
-                    <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={vacation?.startDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />
-                    <span className="Err">{formState.errors.startDate?.message}</span>
+                        {/* Start Date: onchange handler, value = previous Start Date */}
+                        <label>Start date: </label>
+                        <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={(startDate).toISOString().split("T")[0]} />
+                        <span className="Err">{formState.errors.startDate?.message}</span>
 
-                    {/* End Date: minimum => Start Date, value = previous EndDate */}
-                    <label>End date: </label>
-                    <input type="date" {...register("endDate", VacationModel.endDateValidation)} value={vacation?.endDate?.split("T")[0]} min={startDate.toISOString().split("T")[0]} />
-                    <span className="Err">{formState.errors.endDate?.message}</span>
+                        {/* End Date: value = previous EndDate */}
+                        <label>End date: </label>
+                        <input type="date" {...register("endDate", VacationModel.endDateValidation)} onChange={handleEndDateChange} value={(endDate).toISOString().split("T")[0]} min={startDate.toISOString().split("T")[0]} />
+                        <span className="Err">{formState.errors.endDate?.message}</span>
 
-                    <label>Price: </label>
-                    <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
-                    <span className="Err">{formState.errors.price?.message}</span>
+                        <label>Price: </label>
+                        <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
+                        <span className="Err">{formState.errors.price?.message}</span>
 
-                    <label>Image: </label>
-                    <input type="file" accept="image/*" {...register("image", VacationModel.imagePutValidation)} />
-                    <span className="Err">{formState.errors.image?.message}</span>
-                </div>
-                <div>
-                    <label>Description: </label>
-                    <textarea {...register("description", VacationModel.descriptionValidation)} />
-                    <span className="Err">{formState.errors.description?.message}</span>
+                        <label>Image: </label>
+                        <input type="file" accept="image/*" {...register("image", VacationModel.imagePutValidation)} />
+                        <span className="Err">{formState.errors.image?.message}</span>
 
-                    <img src={vacation?.imageUrl} />
+                    </div>
+                    <div>
+                        <label>Description: </label>
+                        <textarea {...register("description", VacationModel.descriptionValidation)} />
+                        <span className="Err">{formState.errors.description?.message}</span>
+                        <br></br>
+                        <img src={vacation?.imageUrl} />
 
-                    <button>Update</button>
-                </div>
+                        <button className="ButtonUpdate">Update</button>
+                    </div>
 
-            </form>
+                    <button className="ButtonBackUpdate"><NavLink to={"/vacations-list"}>Back</NavLink></button>
+                </form>
 
+            </div>
         </div>
     );
 }
