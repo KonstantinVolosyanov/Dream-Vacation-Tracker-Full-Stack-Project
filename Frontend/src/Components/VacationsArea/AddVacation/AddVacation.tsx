@@ -2,12 +2,36 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
+import { authStore } from "../../../Redux/AuthState";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
 
 function AddVacation(): JSX.Element {
     
+     // Users---------------------------------------------------------------------------
+     const [user, setUser] = useState<UserModel>();
+    
+
+     // User UseEffect
+     useEffect(() => {
+         // If not user - navigate to login:
+         if (!authStore.getState().user) {
+             navigate("/login")
+         }
+         setUser(authStore.getState().user);
+         // Listen to AuthState changes + unsubscribe:
+         const unsubscribe = authStore.subscribe(() => {
+             setUser(authStore.getState().user);
+         });
+         return unsubscribe;
+     }, []);
+ 
+ 
+     function redirect() {
+         navigate("/vacations-list");
+     }
 
     // Use form:
     const { register, handleSubmit, formState } = useForm<VacationModel>();
@@ -44,6 +68,10 @@ function AddVacation(): JSX.Element {
             <h2 className="AddVacationH2">Add Vacation</h2>
 
             <div className="AddEditForm">
+
+            {user && user.role === "User" && <>
+                {redirect()}
+            </>}
 
                 {/* Add vacation form */}
                 <form onSubmit={handleSubmit(send)}>

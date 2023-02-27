@@ -1,0 +1,6 @@
+Admin: email = bart@gmail.com, password = 1234
+User: email = lisa@gmail.com, password = 1234
+
+link to GitHub repository:
+https://github.com/KonstantinVolosyanov/VacationsProject/
+

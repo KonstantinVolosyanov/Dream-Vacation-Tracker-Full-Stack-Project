@@ -1,7 +1,7 @@
 import "./CsvCreator.css";
 import { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import { authStore } from "../../../Redux/AuthState";
 import userServices from "../../../Services/UserServices";
@@ -10,6 +10,8 @@ import userServices from "../../../Services/UserServices";
 function CsvCreator(): JSX.Element {
     // User set state:
     const [user, setUser] = useState<UserModel>();
+    // Use Navigate:
+    const navigate = useNavigate();
 
     // useEffect for User and Subscribe;
     useEffect(() => {
@@ -20,6 +22,11 @@ function CsvCreator(): JSX.Element {
         });
         return unsubscribe;
     }, []);
+
+
+    function redirect() {
+        navigate("/vacations-list");
+    }
 
 
     // csvData set State:
@@ -50,6 +57,10 @@ function CsvCreator(): JSX.Element {
 
     return (
         <div className="CsvCreator">
+
+            {user && user.role === "User" && <>
+                {redirect()}
+            </>}
 
             {/* Show in Menu if user role = User */}
             {user && user.role === "Admin" && <>

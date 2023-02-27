@@ -2,11 +2,37 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
+import UserModel from "../../../Models/UserModel";
 import VacationModel from "../../../Models/VacationModel";
+import { authStore } from "../../../Redux/AuthState";
 import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
 
 function EditVacation(): JSX.Element {
+
+    // Users---------------------------------------------------------------------------
+    const [user, setUser] = useState<UserModel>();
+    
+
+    // User UseEffect
+    useEffect(() => {
+        // If not user - navigate to login:
+        if (!authStore.getState().user) {
+            navigate("/login")
+        }
+        setUser(authStore.getState().user);
+        // Listen to AuthState changes + unsubscribe:
+        const unsubscribe = authStore.subscribe(() => {
+            setUser(authStore.getState().user);
+        });
+        return unsubscribe;
+    }, []);
+
+
+    function redirect() {
+        navigate("/vacations-list");
+    }
+
     // Vacation Use State:
     const [vacation, setVacation] = useState<VacationModel>();
 
@@ -31,7 +57,6 @@ function EditVacation(): JSX.Element {
                 const startDate = new Date(vacation.startDate);
                 startDate.setDate(startDate.getDate())
                 const formattedStartDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
-                setValue("startDate", formattedStartDate);
                 setValue("startDate", formattedStartDate);
                 setStartDate(startDate);
                 // Get Time locale zone end date
@@ -79,6 +104,11 @@ function EditVacation(): JSX.Element {
 
     return (
         <div>
+
+            {user && user.role === "User" && <>
+                {redirect()}
+            </>}
+
             <h2 className="AddVacationH2">Edit Vacation</h2>
 
             <div className="AddEditForm">

@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CanvasJSReact from '../../../Assets/canvasjs.react';
+import UserModel from '../../../Models/UserModel';
 import VacationModel from '../../../Models/VacationModel';
+import { authStore } from '../../../Redux/AuthState';
 import userServices from '../../../Services/UserServices';
 import notify from '../../../Utils/Notify';
+import Login from '../../AuthArea/Login/Login';
+import Home from '../../HomeArea/Home/Home';
 import CsvCreator from '../CsvCreator/CsvCreator';
+import VacationsList from '../VacationsList/VacationsList';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const CanvasJS = CanvasJSReact.CanvasJS;
 
@@ -17,6 +23,32 @@ const addSymbols = (e: any) => {
 }
 
 const VacationsReport = () => {
+
+
+    // Users---------------------------------------------------------------------------
+    const [user, setUser] = useState<UserModel>();
+    const navigate = useNavigate();
+
+    // User UseEffect
+    useEffect(() => {
+        // If not user - navigate to login:
+        if (!authStore.getState().user) {
+            navigate("/login")
+        }
+        setUser(authStore.getState().user);
+        // Listen to AuthState changes + unsubscribe:
+        const unsubscribe = authStore.subscribe(() => {
+            setUser(authStore.getState().user);
+        });
+        return unsubscribe;
+    }, []);
+
+
+    function redirect() {
+        navigate("/vacations-list");
+    }
+
+
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
     const [options, setOptions] = useState<any>(null);
@@ -68,11 +100,21 @@ const VacationsReport = () => {
             .catch(err => notify.error(err));
     }, []);
 
+
     return (
         <div className='VacationsReport'>
             <div className="VacationsReportContainer">
-                <CsvCreator />
-                {options && <CanvasJSChart options={options} />}
+                {/* If not user - go to login */}
+                {!user && <Login />}
+
+                {user && user.role === "User" && <>
+                    {redirect()}
+                </>}
+
+                {user && user.role === "Admin" && <>
+                    <CsvCreator />
+                    {options && <CanvasJSChart options={options} />}
+                </>}
             </div>
         </div>
     );
