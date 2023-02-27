@@ -1,23 +1,19 @@
 import express, { NextFunction, Request, Response } from "express";
-import cyber from "../2-utils/cyber";
-import imageHandler from "../2-utils/image-handler";
 import verifyAdmin from "../3-middleware/verify-admin";
-import verifyLoggedIn from "../3-middleware/verify-logged-in";
 import VacationModel from "../4-models/vacation-model";
 import adminServices from "../5-services/admin-services";
-import userServices from "../5-services/user-services";
 
 
 const router = express.Router();
 
 
 
-// Get One Vacation for Admin Route // GET http://localhost:4000/api/admin/vacations
-router.get("/admin/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+// Get One Vacation for Admin Route // GET http://localhost:4000/api/admin/vacations/:vacationId
+router.get("/admin/vacations/:vacationId([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
    try {
-      const id = +request.params.vacationId;
+      const vacationId = +request.params.vacationId;
       // Get all vacations:
-      const vacation = await adminServices.getOneVacation(id);
+      const vacation = await adminServices.getOneVacation(vacationId);
       // Return vacations json data
       response.json(vacation);
    }
@@ -25,8 +21,6 @@ router.get("/admin/vacations/:id([0-9]+)", verifyAdmin, async (request: Request,
       next(err);
    }
 });
-
-
 
 
 // Add Vacation Route // POST http://localhost:4000/api/admin/vacations
@@ -82,16 +76,5 @@ router.delete("/admin/vacations/:vacationId([0-9]+)", verifyAdmin, async (reques
    }
 });
 
-// // Get Image // GET http://localhost:4000/api/admin/vacations/images/:imageName
-// router.get("/admin/vacations/images/:imageName", async (request: Request, response: Response, next: NextFunction) => {
-//    try {
-//       const imageName = request.params.imageName;
-//       const absolutePath = imageHandler.getAbsolutePath(imageName);
-//       response.sendFile(absolutePath)
-//    }
-//    catch (err: any) {
-//       next(err);
-//    }
-// });
 
 export default router;

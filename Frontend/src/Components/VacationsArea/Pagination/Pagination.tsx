@@ -15,12 +15,18 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ setVacations, vacations, user }) => {
-    const [totalFilteredVacations, setTotalFilteredVacations] = useState<VacationModel[]>([]);
-    const [vacationsPerPage] = useState(4);
 
+    // Total vacations after filtering:
+    const [totalFilteredVacations, setTotalFilteredVacations] = useState<VacationModel[]>([]);
+    // Number vacations per page:
+    const [vacationsPerPage] = useState(8);
+    // Set current page:
     const [currentPage, setCurrentPage] = useState(1);
+    // Find index of last vacation on page:
     const lastVacationIndex = currentPage * vacationsPerPage;
+    // Find index of first vacation on page:
     const firstVacationIndex = lastVacationIndex - vacationsPerPage;
+    // Current vacation:
     const currentVacation = totalFilteredVacations.slice(firstVacationIndex, lastVacationIndex)
 
 
@@ -36,6 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({ setVacations, vacations, user }
 
     // Handle next page button:
     const nextPage = () => {
+        // Is this page not last page - 
         if (currentPage !== totalPages) {
             paginate(currentPage + 1);
         }

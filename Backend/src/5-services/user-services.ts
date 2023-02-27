@@ -5,7 +5,7 @@ import VacationModel from "../4-models/vacation-model";
 
 
 
-//Get All Vacations:
+// Get All Vacations:
 async function getAllVacations(user: UserModel): Promise<VacationModel[]> {
     // Create sql query:
     const sql = `

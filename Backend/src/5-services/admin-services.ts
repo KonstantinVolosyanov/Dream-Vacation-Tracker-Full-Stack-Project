@@ -10,7 +10,7 @@ import VacationModel from "../4-models/vacation-model";
 // Get One Vacation:
 async function getOneVacation(vacationId: number): Promise<VacationModel> {
     // Create sql query:
-    const sql = `SELECT * CONCAT('${appConfig.vacationImagesAddress}',imageName) AS imageUrl FROM vacations WHERE vacationId = ? ORDER BY startDate`;
+    const sql = `SELECT * ,CONCAT('${appConfig.vacationImagesAddress}',imageName) AS imageUrl FROM vacations WHERE vacationId = ? ORDER BY startDate`;
     // Execute sql query
     const vacations = await dal.execute(sql, vacationId);
     // Extract single vacation:

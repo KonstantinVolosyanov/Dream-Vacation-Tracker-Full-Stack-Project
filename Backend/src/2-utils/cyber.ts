@@ -5,8 +5,6 @@ import { AuthenticationError } from "../4-models/client-errors";
 import RoleModel from "../4-models/role-model";
 import UserModel from "../4-models/user-model";
 
-
-
 // Create secret key:
 const secretKey = "4578-86 Students Are Amazing!";
 

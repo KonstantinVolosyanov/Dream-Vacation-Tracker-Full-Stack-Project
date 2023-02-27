@@ -7,7 +7,7 @@ class AdminServices {
 
     // Get One Vacation For Admin:
     public async getOneVacation(vacationId: number): Promise<VacationModel> {
-        
+
         // Take vacations from global state:
         let vacations = vacationsStore.getState().vacations;
 
@@ -15,12 +15,15 @@ class AdminServices {
         let vacation = vacations.find(v => v.vacationId === vacationId);
 
         // If vacation not found:
-        if (!vacations) {
+        if (!vacation) {
 
             // Fetch vacations from backend:
             const response = await axios.get<VacationModel>(appConfig.adminVacationsUrl + vacationId);
+
             vacation = response.data;
+            console.log(vacation);
         }
+
         // Return vacations:
         return vacation;
     }
@@ -59,13 +62,13 @@ class AdminServices {
         // Send request to backend:
         const response = await axios.put<VacationModel>(appConfig.adminVacationsUrl + vacation.vacationId, vacation, { headers });
 
-         // Receive response to updatedVacation
+        // Receive response to updatedVacation
         const updatedVacation = response.data;
 
-         // Full image url:
+        // Full image url:
         const imageUrl = appConfig.imagesUrl + updatedVacation.imageName;
 
-         // Add full url to updatedVacation:
+        // Add full url to updatedVacation:
         const vacationWithImageUrl = { ...updatedVacation, imageUrl };
 
         // Send updated vacation into redux global state:

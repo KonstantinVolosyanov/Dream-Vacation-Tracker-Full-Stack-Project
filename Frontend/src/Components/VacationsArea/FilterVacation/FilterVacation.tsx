@@ -11,9 +11,11 @@ interface Props {
 }
 
 const FilterVacation: React.FC<Props> = ({ vacations, setTotalFilteredVacations, user, setCurrentPage }) => {
-  
+    
+    // Set filter to all by default:
     const [filter, setFilter] = useState<string>("all");
 
+    // Handle Filter Change
     const onFilterChange = (filter: string) => {
         // Setting Filter:
         setFilter(filter)

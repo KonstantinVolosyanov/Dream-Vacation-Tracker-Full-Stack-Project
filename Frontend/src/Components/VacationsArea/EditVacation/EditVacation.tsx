@@ -7,54 +7,52 @@ import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
 
 function EditVacation(): JSX.Element {
-
+    // Vacation Use State:
     const [vacation, setVacation] = useState<VacationModel>();
+
+    // Use Form:
     const { register, handleSubmit, formState, setValue } = useForm<VacationModel>();
+
+    // Use Navigate
     const navigate = useNavigate();
+
+    // Use Params:
     const params = useParams();
 
-    // Load vacation data from local storage whenever it changes
-    useEffect(() => {
-        const storedVacation = JSON.parse(localStorage.getItem(`vacation-${params.vacationId}`) || '{}');
-        setVacation(storedVacation);
-    }, [params.vacationId]);
-
-    // Save vacation data to local storage whenever it changes
-    useEffect(() => {
-        if (vacation) {
-            localStorage.setItem(`vacation-${vacation.vacationId}`, JSON.stringify(vacation));
-        }
-    }, [vacation]);
-
-
+    // Use Effect fill form bu default vacation values
     useEffect(() => {
         adminServices.getOneVacation(+params.vacationId)
             .then(vacation => {
+
+                setValue("vacationId", vacation.vacationId);
+                setValue("destination", vacation.destination);
+                setValue("description", vacation.description);
+                // Get Time locale zone start date
+                const startDate = new Date(vacation.startDate);
+                startDate.setDate(startDate.getDate())
+                const formattedStartDate = new Date(startDate.getTime() - startDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
+                setValue("startDate", formattedStartDate);
+                setValue("startDate", formattedStartDate);
+                setStartDate(startDate);
+                // Get Time locale zone end date
+                const endDate = new Date(vacation.endDate);
+                endDate.setDate(endDate.getDate())
+                const formattedEndDate = new Date(endDate.getTime() - endDate.getTimezoneOffset() * 60000).toISOString().substring(0, 10);
+                setValue("endDate", formattedEndDate);
+                setEndDate(endDate);
+
+                setValue("price", vacation.price);
                 setVacation(vacation);
-                if (vacation) {
-                    setValue("vacationId", vacation.vacationId);
-                    setValue("destination", vacation.destination);
-                    setValue("description", vacation.description);
-                    setValue("startDate", vacation.startDate);
-                    setValue("endDate", vacation.endDate);
-                    setValue("price", vacation.price);
-                    const defaultStartDate = new Date(vacation.startDate);
-                    defaultStartDate.setDate(defaultStartDate.getDate() + 1);
-                    setStartDate(defaultStartDate);
 
-                    const defaultEndDate = new Date(vacation.endDate);
-                    defaultEndDate.setDate(defaultEndDate.getDate() + 1);
-                    setEndDate(defaultEndDate);
-
-                }
             })
             .catch(err => notify.error(err));
     }, []);
 
+    // Send function for handling update Vacation
     async function send(vacation: VacationModel) {
         try {
             vacation.image = (vacation.image as unknown as FileList)[0];
-            const updatedVacation = await adminServices.updateVacation(vacation);
+            await adminServices.updateVacation(vacation);
             notify.success("Vacation has been updated.")
             navigate("/vacations-list")
         }
@@ -63,20 +61,20 @@ function EditVacation(): JSX.Element {
         }
     }
 
-    // Start date state for past date validation
+    // Start date State for past date validation:
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
-    // Past date validation handler
+    // Past date validation handler:
     const handleStartDateChange = (args: ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = new Date(args.target.value);
-        setStartDate(selectedDate);
-        setValue("startDate", selectedDate.toISOString().split("T")[0]);
+        const inputStartDate = new Date(args.target.value);
+        inputStartDate.setUTCHours(0, 0, 0, 0); // Set to midnight in UTC
+        setStartDate(inputStartDate);
     };
     const handleEndDateChange = (args: ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = new Date(args.target.value);
-        setEndDate(selectedDate);
-        setValue("endDate", selectedDate.toISOString().split("T")[0]);
+        const inputEndDate = new Date(args.target.value);
+        inputEndDate.setUTCHours(0, 0, 0, 0); // Set to midnight in UTC
+        setEndDate(inputEndDate);
     };
 
     return (
@@ -98,12 +96,12 @@ function EditVacation(): JSX.Element {
 
                         {/* Start Date: onchange handler, value = previous Start Date */}
                         <label>Start date: </label>
-                        <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} value={(startDate).toISOString().split("T")[0]} />
+                        <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} />
                         <span className="Err">{formState.errors.startDate?.message}</span>
 
                         {/* End Date: value = previous EndDate */}
                         <label>End date: </label>
-                        <input type="date" {...register("endDate", VacationModel.endDateValidation)} onChange={handleEndDateChange} value={(endDate).toISOString().split("T")[0]} min={startDate.toISOString().split("T")[0]} />
+                        <input type="date" {...register("endDate", VacationModel.endDateValidation)} onChange={handleEndDateChange} min={startDate.toISOString().split("T")[0]} />
                         <span className="Err">{formState.errors.endDate?.message}</span>
 
                         <label>Price: </label>

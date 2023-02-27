@@ -7,8 +7,7 @@ import adminServices from "../../../Services/AdminServices";
 import notify from "../../../Utils/Notify";
 
 function AddVacation(): JSX.Element {
-
-    // const [vacation, setVacation] = useState<VacationModel>();
+    
 
     // Use form:
     const { register, handleSubmit, formState } = useForm<VacationModel>();
@@ -23,6 +22,7 @@ function AddVacation(): JSX.Element {
     const handleStartDateChange = (args: ChangeEvent<HTMLInputElement>) => {
         setStartDate(args.target.valueAsDate);
     };
+    
 
 
     // Send added vacation
@@ -61,9 +61,11 @@ function AddVacation(): JSX.Element {
                         <input type="date" {...register("startDate", VacationModel.startDateValidation)} onChange={handleStartDateChange} min={new Date().toISOString().split("T")[0]} />
                         <span className="Err">{formState.errors.startDate?.message}</span>
 
+                        {/* End Date - min: Start Date */}
                         <label>End date: </label>
                         <input type="date" {...register("endDate", VacationModel.endDateValidation)} min={startDate.toISOString().split("T")[0]} />
                         <span className="Err">{formState.errors.endDate?.message}</span>
+
                         <label>Price: </label>
                         <input type="number" step="0.01" {...register("price", VacationModel.priceValidation)} />
                         <span className="Err">{formState.errors.price?.message}</span>
@@ -71,6 +73,7 @@ function AddVacation(): JSX.Element {
                         <label >Image: </label>
                         <input className="Button" type="file" accept="image/*" {...register("image", VacationModel.imageValidation)} />
                         <span className="Err">{formState.errors.image?.message}</span>
+
                     </div>
                     <div>
 
@@ -79,9 +82,11 @@ function AddVacation(): JSX.Element {
                         <span className="Err">{formState.errors.description?.message}</span>
 
                         <button className="ButtonAdd">Add</button>
+
                     </div>
 
                     <button className="ButtonBack"><NavLink to={"/vacations-list"}>Back</NavLink></button>
+
                 </form>
             </div>
         </div>

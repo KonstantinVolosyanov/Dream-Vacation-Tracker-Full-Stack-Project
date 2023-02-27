@@ -25,7 +25,7 @@ function Routing(): JSX.Element {
             {/* Vacation List Component */}
             <Route path="/vacations-list" element={<VacationsList />} />
 
-            {/* Statistics Page */}
+            {/* Statistics Component */}
             <Route path="/vacations-report" element={<VacationsReport />} />
 
             {/* Create csv Component */}
